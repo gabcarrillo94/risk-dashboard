@@ -1,0 +1,58 @@
+.container(ng-show='!showPasswordEdit')
+  .col-sm-8.col-sm-offset-2
+    .col-md-6.col-md-offset-3
+      #login
+        #login-header
+          h2 CEPTINEL
+        #login-form-container
+          h2 Login
+          form.login(name='form', ng-submit='form.$valid && login.login()', novalidate='')
+            .form-group.adj-margin(ng-class="{ 'has-error': form.$submitted && form.username.$invalid }")
+              label(for='username')
+                span.login-icon.user-icon
+              input(type='text', name='username', ng-model='login.username', required='')
+              .help-block(ng-messages='form.$submitted && form.username.$error')
+                div(ng-message='required') Username is required
+            .form-group.adj-margin(ng-class="{ 'has-error': form.$submitted && form.password.$invalid }")
+              label(for='password')
+                span.password-icon
+              input(type='password', name='password', ng-model='login.password', required='')
+              .help-block(ng-messages='form.$submitted && form.password.$error')
+                div(ng-message='required') Password is required
+            .row.adj-margin.col-md-12.text-center
+              a(style='font-size: 10px; vertical-align: text-top;', ng-click='login.passwordResetModal()') Recuperar Contraseña
+            .login-btn-container
+              .form-group
+                button.login-btn(ng-disabled='login.loading', ng-click='login.login()')
+            .alert.alert-danger.ceptinel-error(ng-if='login.error') {{ login.error }}
+
+
+.container(ng-show='showPasswordEdit')
+  .col-sm-8.col-sm-offset-2
+    .col-md-6.col-md-offset-3
+      #login
+        #login-header
+          h2 CEPTINEL
+        #login-form-container
+          h2 Cambiar Contraseña
+          form(name='form', ng-submit='form.$valid && login.login()', novalidate='')
+            .row.form-group.adj-margin(ng-class="{ 'has-error': form.$submitted && form.username.$invalid }")
+              .col-md-4
+                label(for='changePassword1', style='color: #000; font-size: 14px;')
+                  | Nueva:
+              .col-md-8
+                input(style='width: 100%;', type='password', name='changePassword1', ng-model='login.changePassword1', required='')
+            .row.form-group.adj-margin(ng-class="{ 'has-error': form.$submitted && form.password.$invalid }")
+              .col-md-4
+                label(for='changePassword2', style='color: #000; font-size: 14px;')
+                  | Confirmar:
+              .col-md-8
+                input(style='width: 100%;', type='password', name='changePassword2', ng-model='login.changePassword2', required='')
+                .help-block(ng-messages='form.$submitted && form.password.$error')
+                  div(ng-message='required') Password is required
+            .login-btn-container
+              .form-group
+                a.btn.btn-primary.btn-raised.active(ng-disabled='login.loadingChangePassword', ng-click='login.changePassword()')
+                  | Cambiar Contraseña
+            .alert.alert-error.ceptinel-error(ng-if='login.errorPassChange') {{ login.errorPassChange }}
+            .alert.alert-success.ceptinel-error(ng-if='login.successPassChange') {{ login.successPassChange }}

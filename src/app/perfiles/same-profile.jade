@@ -1,0 +1,19 @@
+.modal(tabindex="-1", role="dialog")
+  .modal-dialog
+    .modal-content.medium-modal
+      .modal-header
+        a.close(type="button", abm-component ng-click="$hide()") ×
+        h4.text-title MODIFICACIÓN DE PERFIL
+            .dashboard-badge-indicador.dashboard-badge.title-badge
+                .dashboard-bagde
+      .modal-body
+        | ATENCIÓN EL PERFIL QUE ESTA MODIFICANDO PERTENECE A SU USUARIO
+        br
+        br
+        | Si presiona "continuar" su sesión se cerrará para realizar las modificaciones.
+        br
+        br
+        | Si presiona "cancelar" no se efecturán los cambios realizados.      
+      .modal-footer(style="margin-bottom: 22px;")
+        button.btn.btn-primary.btn-raised.active.recovery-button(ng-click='editarPerfil(true)') Continuar
+        button.btn.btn-primary.btn-raised.active.recovery-button(ng-click="$hide()") Cancelar

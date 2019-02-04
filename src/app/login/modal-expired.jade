@@ -1,0 +1,10 @@
+.modal(tabindex="-1", role="dialog")
+  .modal-dialog
+    .modal-content
+      .modal-header
+        a.close(type="button", abm-component , ng-click="$hide()") ×
+        h4.modal-title Alerta
+      .modal-body
+        | Tu sesión ha expirado
+      .modal-footer
+        button.btn.btn-default(type='button', ng-click="$hide()") Continuar

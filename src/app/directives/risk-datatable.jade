@@ -1,0 +1,29 @@
+div
+    table.mdl-data-table(id="{{id}}" datatable="ng" style="width:100%")                    
+        thead
+            tr
+              th
+              th id
+              th Fecha/Hora
+              th Descripción
+              th Tipo
+              th Criticidad
+              th Estado
+        tbody
+            tr(ng-repeat="(keyData, data) in data" class="{{config.style.trStyle(data)}}"
+                ng-attr-title="{{config.style.trTooltip(data)}}")
+                td
+                    input(type="checkbox" ng-click="checkEvent(data['id'])")
+                td.text-capitalize
+                    | {{data['id']}}
+                td.text-capitalize
+                    | {{data['timestamp']}}
+                td.text-capitalize
+                    | {{data['ruleDescription']}}
+                td.text-capitalize
+                    | {{data['labels']}}
+                td.text-capitalize
+                    | {{data['criticality']}}
+                td.text-capitalize
+                    | {{data['status']}}
+          

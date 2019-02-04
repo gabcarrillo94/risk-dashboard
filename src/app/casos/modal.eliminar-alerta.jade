@@ -1,0 +1,11 @@
+.modal.text-left(tabindex="-1" role="dialog")
+  .modal-dialog
+    .modal-content
+      .modal-header
+        a.close(type="button", abm-component, ng-click="$hide()") ×
+        h4.modal-title Desvincular {{alerta.tipo}}
+      .modal-body()
+        | Confirmar desvincular {{alerta.tipo}} {{alerta.id}} del caso {{caso.nombre}} - {{caso.id}}
+      .modal-footer
+        a.btn.btn-primary.btn-xs(abm-component, ng-click="$hide()") Cancelar
+        a.btn.btn-warning.btn-xs(abm-component, ng-click="desvincular()") Desvincular

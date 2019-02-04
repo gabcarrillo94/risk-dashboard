@@ -1,0 +1,10 @@
+test:
+  override:
+    - sh build.sh
+    - echo "NO TESTS"
+
+deployment:
+  staging:
+    branch: development
+    commands:
+      - sh deploy_dev.sh

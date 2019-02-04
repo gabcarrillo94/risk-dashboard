@@ -1,0 +1,41 @@
+.modal(tabindex='-1', role='dialog')
+  .modal-dialog
+    .modal-content
+      .modal-header
+        a.close(type='button', abm-component='abm-component', ng-click='$hide()') ×
+        h4.modal-title.text-title BUSCAR
+          .dashboard-badge-indicador.dashboard-badge.title-badge
+            .dashboard-bagde
+      .modal-body
+        .row.system-title
+          .col-md-8
+            label Username
+            .input-icon
+              input.form-control(type='text', placeholder='Buscar ...', ng-model='filtrarUsuario')
+              .box-icon
+                i.fa.fa-search.search-icon
+        .row.text-center.system-title
+          .col-md-3.col-sm-3.col-xs-3
+            | USERNAME
+          .col-md-3.col-sm-3.col-xs-3
+            | NOMBRE
+          .col-md-3.col-sm-3.col-xs-3
+            | APELLIDO
+          .col-md-3.col-sm-3.col-xs-3
+            | ROL
+        .row.row-system-options.text-center(ng-repeat="usuarioRol in filterUsers = (listadoUsuariosRoles | filterByUsername: filtrarUsuario)")
+          .col-md-3.col-sm-3.col-xs-3
+            .option-box
+              | {{usuarioRol.riskUser.username}}
+          .col-md-3.col-sm-3.col-xs-3
+            .option-box
+              | {{usuarioRol.riskUser.userName}}
+          .col-md-3.col-sm-3.col-xs-3
+            .option-box
+              | {{usuarioRol.riskUser.userLastname}}
+          .col-md-3.col-sm-3.col-xs-3
+            .option-box
+              | {{usuarioRol.riskRole.roleDescription}}
+      .modal-footer
+        button.btn-rosado.btn.btn-default.btn-group-sm(type='button', ng-click='busquedaPorFiltro()') Aceptar
+        button.btn-rosado.btn.btn-default.btn-group-sm(type='button', ng-click='closeModalListadoUsuarios()') Cancelar

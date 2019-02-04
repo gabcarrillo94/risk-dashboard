@@ -1,0 +1,12 @@
+.modal(tabindex="-1", role="dialog")
+  .modal-dialog
+    .modal-content.x-small-modal(style="text-align:center;")
+      .modal-header
+        img(src='/assets/images/icons/success.svg' style="width:50px;" ng-show="tipoAlert=='success'")
+        img(src='/assets/images/icons/error.svg' style="width:50px;" ng-show="tipoAlert=='error'")
+      .modal-body
+        | {{msgAlert}}
+        br
+        br
+      .modal-footer(style="margin-bottom: 22px; text-align:center;")
+        button.btn.btn-primary.btn-raised.active.recovery-button(ng-click="$hide()" style="min-width:100px;") OK

@@ -1,0 +1,173 @@
+.color-primary-0 { color: #BA0C2F }
+
+.color-primary-1 { color: #EA5472 }
+
+.color-primary-2 { color: #DB2A4C }
+
+.color-primary-3 { color: #98001E }
+
+.color-primary-4 { color: #720016 }
+
+.color-primary-0 { color: #333F48 }
+
+.color-primary-1 { color: #68757F }
+
+.color-primary-2 { color: #4B5964 }
+
+.color-primary-3 { color: #1D2A34 }
+
+.color-primary-4 { color: #12222E }
+
+
+$header-color: #ffffff;
+$panel-heading: #DB2A4C;
+$panel-heading-light: #BA0C2F;
+$link-color:#DB2A4C;
+$header-color-input: #68757F;
+$header-color-placeholder: #999;
+
+$btn-primary-color: #f04265;
+$header-user-color:#1D2A34;
+.variacode {
+  a {
+    color: $link-color;
+    &:hover {
+      color: lighten($link-color, 10%);
+    }
+  }
+  .logo-app {
+    background-image: url("../assets/images/variacode/variacode.svg");
+    background-size: contain;
+    height: 80px;
+  }
+  .col-header {
+    background: $header-color;
+    position: relative;
+    z-index: 2;
+        box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  }
+  nav.navbar.navbar-app {
+    background: $header-color;
+  }
+  .navbar {
+    .name-avatar,
+    .block-logout {
+      color: $header-user-color;
+    }
+    .block-user:after {
+      background: $header-user-color;
+    }
+  }
+  .nav-tabs {
+    background: $btn-primary-color;
+  }
+  .nav-tabs li .btn-raised .close-tab {
+    color: $btn-primary-color;
+  }
+  .app-view .well.panel.panel-chart .panel-heading {
+      color: #fff;
+      background: $panel-heading;
+  }
+  .panel.panel-primary > .panel-heading {
+    background: $panel-heading-light;
+  }
+  .panel.panel-success > .panel-heading {
+    background-color: $panel-heading;
+  }
+  //Menu
+  .col-menu {
+    background: #12222E;
+    .btn-menu {
+      margin-bottom: 0px;
+      border-bottom: 1px solid #455a64;
+      color: #eceff1;
+    }
+  }
+  //header
+  .navbar-brand {
+    background-image: url("../assets/images/variacode/variacode.svg");
+    background-size: cover;
+    text-indent: -9000px;
+    width: 100px;
+  }
+  .navbar .navbar-form .form-group .form-control, .navbar .navbar-form .form-control {
+    color:$header-color-input;
+    &::-webkit-input-placeholder {
+    color: $header-color-placeholder;
+    }
+
+    &:-moz-placeholder { /* Firefox 18- */
+    color: $header-color-placeholder;  
+    }
+
+    &::-moz-placeholder {  /* Firefox 19+ */
+    color: $header-color-placeholder;  
+    }
+
+    &:-ms-input-placeholder {  
+    color: $header-color-placeholder;  
+    }
+  }
+  .col-content {
+    //background-image: url("../assets/images/variacode/back.svg");
+    //background-size: contain;
+  }
+  //BOTONES
+  .btn.btn-raised:not(.btn-link).btn-primary {
+    background-color: $btn-primary-color;
+    &:hover.btn-primary {
+      background-color: lighten($btn-primary-color, 10%)
+    }
+  }
+  .btn:not(.btn-raised).btn-primary {
+    color: $btn-primary-color;
+  }
+  fab.btn-primary, .input-group-btn .btn.btn-fab.btn-primary {
+    color: #ffffff;
+    background-color: $btn-primary-color;
+  }
+  .btn:not(.btn-raised):not(.btn-link):hover,
+  .input-group-btn .btn:not(.btn-raised):not(.btn-link):hover {
+    background-color: lighten($btn-primary-color, 10%);
+    color:#fff;
+  }
+  .btn.btn-default:not(.btn-raised):not(.btn-link):hover {
+    background-color: #68757F;
+  }
+  
+  .btn.btn-warning:not(.btn-raised):not(.btn-link):hover {
+    background-color: #ff5722;
+  }
+  .table td.td-btns .btn-primary {
+    background-color: $btn-primary-color;
+    color: #fff;
+}
+  
+  
+  .discussion-not-comment i {
+    color: $btn-primary-color;
+  }
+  
+  //SWITCH
+  .togglebutton label input[type=checkbox]:checked + .toggle:after {
+    background-color: $btn-primary-color;
+  }
+  .togglebutton label input[type=checkbox]:checked + .toggle {
+      background-color: rgba($btn-primary-color, 0.5);
+  }
+  
+  
+  .form-control, .form-group .form-control {
+
+    background-image: -webkit-gradient(linear, left top, left bottom, from($btn-primary-color), to($btn-primary-color)), -webkit-gradient(linear, left top, left bottom, from(#D2D2D2), to(#D2D2D2));
+    background-image: -webkit-linear-gradient($btn-primary-color, $btn-primary-color), -webkit-linear-gradient(#D2D2D2, #D2D2D2);
+    background-image: -o-linear-gradient($btn-primary-color, $btn-primary-color), -o-linear-gradient(#D2D2D2, #D2D2D2);
+    background-image: linear-gradient($btn-primary-color, $btn-primary-color), linear-gradient(#D2D2D2, #D2D2D2);
+   
+  }
+  .form-group.is-focused label, .form-group.is-focused label.control-label {
+    color: $btn-primary-color;
+}
+
+}
+

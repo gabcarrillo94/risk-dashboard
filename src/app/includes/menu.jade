@@ -1,0 +1,68 @@
+nav.menu
+  .logo-app
+    img(src='/assets/images/LOGOBLANCO.png')
+  ul.btn-group
+    div(ng-show='main.opcionDasboardHabilitada')
+      li(data-match-route='/home', ng-class='{deshabilitado: !main.existeFiltro()}')
+        a.btn-menu.btn-raised(ng-click="main.clickMenu('app.home')", abm-component='abm-component')
+          i.icono.icono-dashboard.icon-center
+          | DASHBOARD
+    div(ng-show='main.opcionIncidenciasHabilitada')
+      li(data-match-route='/alarmas/*', ng-class='{deshabilitado: !main.existeFiltro()}')
+        a.btn-menu.btn-raised(ng-click="main.clickMenu('app.alarmas')", abm-component='abm-component')
+          i.icono.icono-alert.icon-center
+          | ALERTAS
+    div(ng-show='main.opcionCasosHabilitada')
+      li(data-match-route='/casos/*', ng-class='{deshabilitado: !main.existeFiltro()}')
+        a.btn-menu.btn-raised(ng-click="main.clickMenu('app.casos')", abm-component='abm-component')
+          i.icono.icono-folder.icon-center
+          | CASOS
+    div(ng-show='main.opcionAuditoriaHabilitada')
+      li(data-match-route='/auditoria/*', ng-class='{deshabilitado: !main.existeFiltro()}')
+        a.btn-menu.btn-raised(ng-click="main.clickMenu('app.auditoria')", abm-component='abm-component')
+          i.icono.icono-auditoria.icon-center
+          | AUDITORIA
+    div(ng-show='main.opcionBovedaHabilitada')
+      li(data-match-route='/boveda/*', ng-class='{deshabilitado: !main.existeFiltro()}')
+        a.btn-menu.btn-raised(ng-click="main.clickMenu('app.boveda')", abm-component='abm-component')
+          i.icono.icono-boveda.icon-center
+          | BOVEDA DE DATOS
+    div(ng-show='main.opcionReportesHabilitada')
+      li(data-match-route='/reportes/*', ng-class='{deshabilitado: !main.existeFiltro()}')
+        a.btn-menu.btn-raised(ng-click="main.clickMenu('app.reportes')", abm-component='abm-component')
+          i.icono.icono-informes.icon-center
+          | REPORTES
+    div(ng-show='main.opcionConfiguracionHabilitada || main.opcionCredencialesHabilitada')
+      li(ng-class='{deshabilitado: !main.existeFiltro()}')
+        a.btn-menu.btn-raised(ng-click="main.habilitarSubMenuConf = !main.habilitarSubMenuConf", abm-component='abm-component')
+          i.icono.icono-config.icon-center
+          | CONFIGURACION
+      li.red-bar(ng-if="main.habilitarSubMenuConf")
+        ul.background-design
+          li(ng-show="main.opcionConfiguracionHabilitada" data-match-route='/configuracion/*', ng-class='{deshabilitado: !main.existeFiltro()}')
+            a.btn-menu.btn-raised(ng-click="main.clickMenu('app.configuracion')", abm-component='abm-component')
+              i.icono.icono-reglas.icon-center
+              | Reglas
+          li(ng-show="main.opcionCredencialesHabilitada" data-match-route='/credenciales/*', ng-class='{deshabilitado: !main.existeFiltro()}')
+            a.btn-menu.btn-raised(ng-click="main.clickMenu('app.credenciales')", abm-component='abm-component')
+              i.icono.icono-credenciales.icon-center
+              | Credenciales
+    div
+      li(ng-class='{deshabilitado: !main.existeFiltro()}')
+        a.btn-menu.btn-raised(ng-click="main.habilitarSubMenu = !main.habilitarSubMenu", abm-component='abm-component')
+          i.icono.icono-seguridad.icon-center
+          | SEGURIDAD
+      li.red-bar(ng-if="main.habilitarSubMenu")
+        ul.background-design
+          li(ng-show="main.opcionSeguridadUsuarioHabilitada" data-match-route='/usuarios/*', ng-class='{deshabilitado: !main.existeFiltro()}')
+            a.btn-menu.btn-raised(ng-click="main.clickMenu('app.usuarios')", abm-component='abm-component')
+              i.icono.icono-usuarios.icon-center
+              | Usuarios
+          li(ng-show="main.opcionSeguridadPerfilHabilitada" data-match-route='/perfiles/*', ng-class='{deshabilitado: !main.existeFiltro()}')
+            a.btn-menu.btn-raised(ng-click="main.clickMenu('app.perfiles')", abm-component='abm-component')
+              i.icono.icono-perfiles.icon-center
+              | Perfiles
+          li( ng-class='{deshabilitado: !main.existeFiltro()}')
+            a.btn-menu.btn-raised(ng-click="main.showModalPassword()", abm-component='abm-component')
+              i.icono.icono-cambio-clave.icon-center
+              | Cambio de Clave

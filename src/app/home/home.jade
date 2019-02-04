@@ -1,0 +1,187 @@
+.row
+  //.col-md-12
+    .well.page
+      .form-inline
+        abm-form-group.form-group-sm
+          label(data-abm-label='') Desde
+          input.form-control(type='text', ng-model='inputs.static1', abm-form-control='' bs-datepicker)
+        abm-form-group.form-group-sm
+          label(data-abm-label='') Hasta
+          input.form-control(type='text', ng-model='inputs.static2', abm-form-control='' bs-datepicker)
+  .col-md-12
+    i.icono.icono-dashboard.icon-center
+    |Eventos
+    .well.panel.panel-info.panel-chart
+      .panel-heading
+        h3.panel-title Eventos totales
+      .panel-body.dashboard-indicadores-panel
+
+        .col-md-3.dashboard-indicadores.dash-divider
+          .row.text-center.dashboard-indicadores-valor
+            | {{events.processed | number}}
+          .row.text-center
+            //---
+            a.anchor(href='#cr')
+            .dashboard-label-indicador
+              | Eventos Procesados
+            .row
+              div.dashboard-badge-container
+                div.dashboard-badge-indicador.dashboard-badge
+                div.dashboard-bagde
+
+        .col-md-2.text-center.dashboard-indicadores.dash-divider
+          .row.text-center.dashboard-indicadores-valor
+            | {{events.notifications}}
+          .row.text-center
+              .dashboard-label-indicador
+                | Notificaciones
+          .row
+            div.dashboard-badge-container
+              div.dashboard-badge-indicador.dashboard-badge
+              div.dashboard-bagde
+        //-cambiar datos anteriores por los de criticidad. alta, media y baja       
+        //resumen eventos
+        .col-md-2.text-center.dashboard-indicadores.dash-divider
+          .row.text-center.dashboard-indicadores-valor
+            | {{events.critical}}
+          .row.text-center
+            .dashboard-label-indicador-alta
+              | Alta
+            .row
+              div.dashboard-badge-container
+                div.dashboard-badge-indicador.dashboard-badge-alta
+                div.dashboard-bagde
+                  a(ng-click="main.clickEvents('alta',events.criticalNotSeen)")
+                    span.badge {{events.criticalNotSeen}}
+
+        .col-md-2.text-center.dashboard-indicadores.dash-divider
+          .row.text-center.dashboard-indicadores-valor
+            | {{events.medium}}
+          .row.text-center
+            .dashboard-label-indicador-media
+              | Media
+          .row
+            div.dashboard-badge-container
+              div.dashboard-badge-indicador.dashboard-badge-media
+              div.dashboard-bagde
+                a(ng-click="main.clickEvents('media',events.mediumNotSeen)")
+                  span.badge {{events.mediumNotSeen}}
+
+        .col-md-2.text-center.dashboard-indicadores.dash-divider
+          .row.text-center.dashboard-indicadores-valor
+            | {{events.low}}
+          .row.text-center
+            .dashboard-label-indicador-baja
+              | Baja
+          .row
+              div.dashboard-badge-container
+                div.dashboard-badge-indicador.dashboard-badge-baja
+                div.dashboard-bagde
+                    a(ng-click="main.clickEvents('baja',events.lowNotSeen)")
+                      span.badge {{events.lowNotSeen}}
+
+
+
+        //---------------
+
+  .col-md-4
+    i.icono.icono-folder.icon-center
+    | CASOS
+  //-.col-md-4
+    .btn-group.btn-group-justified.btn-group-raised
+      a.btn(ng-click='switchGraph("circular")', ng-class='{active:  graph == "circular"}') CIRCULAR
+      a.btn(ng-click='switchGraph("peaks")', ng-class='{active:  graph == "peaks"}') PEAKS
+      a.btn(ng-click='switchGraph("olas")', ng-class='{active:  graph == "olas"}') OLAS
+  //- .col-md-12(ng-show='graph == "peaks"')
+  //-   .well.panel.panel-info.panel-chart
+  //-     .panel-heading
+  //-       h3.panel-title graphs
+  //-     .panel-body(ng-show='graph == "peaks"')
+  //-       canvas.chart.chart-line(chart-data='data', chart-labels='labels', chart-series='series', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick')
+  .col-md-12
+    .well.panel.panel-info.panel-chart
+      .panel-heading
+        h3.panel-title Criticidad
+      //-.panel-body(ng-show='graph == "peaks"', style="min-height: 237px")
+        canvas.chart.chart-line(chart-data='data', chart-labels='labels', chart-series='series', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick', chart-colors='chartColors')
+      //-.panel-body(ng-show='graph == "olas"', style="min-height: 237px")
+        canvas.chart.chart-line(chart-data='data', chart-labels='labels', chart-series='series', chart-options='optionsOlas', chart-dataset-override='datasetOverride', chart-click='onClick', chart-colors='chartColors')
+      .panel-body(ng-show='graph == "circular"')
+        .dashboard-indicadores-panel(style='padding-left: 8.3%;')
+          //- canvas.chart.chart-pie(id="pie", chart-data="main.dataCriticidad", chart-labels="main.labelsCriticidad")
+          //- ul.chart-labels
+          //-   li(ng-repeat="item in main.labelsCriticidad track by $index") 
+          //-     | {{main.labelsCriticidad[$index]}}
+
+         
+          .col-sm-2.col-xs-6
+            .col-sm-12
+              current.dashboard-inner-label-circle {{circular.open}}
+              round-progress(max='getCircularTotal()', current='circular.open', color='#ff005b', bgcolor='#eaeaea', radius='100', stroke='8', semi='false', rounded='true', clockwise='true', responsive='true', duration='800', animation='easeInOutQuart', animation-delay='0')
+            .col-sm-12.text-center.dashboard-label-circle
+              | Casos Abiertos
+          .col-sm-1
+
+          
+            //- .dashboard-divider
+          .col-sm-2.col-xs-6
+            .col-sm-12
+              .current.dashboard-inner-label-circle {{circular.onProgress}}
+              round-progress(max='getCircularTotal()', current='circular.onProgress', color='#ff005b', bgcolor='#eaeaea', radius='100', stroke='8', semi='false', rounded='true', clockwise='true', responsive='true', duration='800', animation='easeInOutQuart', animation-delay='0')
+            .col-sm-12.text-center.dashboard-label-circle
+              | En Curso
+          .col-sm-1
+          .col-sm-2.col-xs-6
+            .col-sm-12
+              .current.dashboard-inner-label-circle {{circular.closed}}
+              round-progress(max='getCircularTotal()', current='circular.closed', color='#ff005b', bgcolor='#eaeaea', radius='100', stroke='8', semi='false', rounded='true', clockwise='true', responsive='true', duration='800', animation='easeInOutQuart', animation-delay='0')
+            .col-sm-12.text-center.dashboard-label-circle
+              | Cerrados
+          .col-sm-1
+          .col-sm-2.col-xs-6
+            .col-sm-12
+              .current.dashboard-inner-label-circle {{circular.inAudit}}
+              round-progress(max='getCircularTotal()', current='circular.inAudit', color='#ff005b', bgcolor='#eaeaea', radius='100', stroke='8', semi='false', rounded='true', clockwise='true', responsive='true', duration='800', animation='easeInOutQuart', animation-delay='0')
+            .col-sm-12.text-center.dashboard-label-circle
+              | En Auditoria
+
+
+              
+         
+
+              
+  //- .col-md-12
+  //-   .well.page
+  //- 
+  //- 
+  //-     table.table.table-striped.table-hover.table-striped(st-table="main.alertas", st-safe-src="main.alertasSrc")
+  //-       thead
+  //-         tr
+  //-             th(st-sort="id") Id
+  //-             th(st-sort="fecha") Fecha
+  //-             th(st-sort="hora") Hora
+  //-             th(st-sort="tipo") Tipo
+  //-             th(st-sort="ejecutivo") Ejecutivo
+  //-             th(st-sort="sortcriticidad") Criticidad
+  //-             th()
+  //-         tr
+  //-           th
+  //-           th(colspan='7')
+  //-             abm-form-group.form-group
+  //-               input.form-control(st-search, type='search', placeholder='Buscar...', ng-model='searchAlerta', abm-form-control)
+  //- 
+  //-       tbody
+  //-         tr(ng-repeat="item in main.alertas", ng-dblclick="home.verDetalleAlerta(item.id)")
+  //-             td {{item.id}}
+  //-             td {{item.fecha}}
+  //-             td {{item.hora}}
+  //-             td {{item.tipo}}
+  //-             td {{item.ejecutivo}}
+  //-             td {{item.criticidad}}
+  //-             td
+  //-               a(data-title="Ver detalle", ng-click="home.verDetalleAlerta(item.id)", bs-tooltip)
+  //-                 i.icon-search
+        //tfoot
+          //tr
+            //td.text-center(colspan='8')
+              //div(st-pagination='', st-items-by-page='itemsByPage', st-displayed-pages='7')

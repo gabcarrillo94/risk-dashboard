@@ -1,0 +1,103 @@
+html{
+  background: white;
+}
+
+.col-menu {
+ background: #607d8b;
+ //height: 100vh;
+ padding: 0;
+}
+.app-view {
+  .container-fluid {
+
+  }
+}
+.btn-menu {
+  display: block;
+  background: #546e7a;
+  color: #eceff1;
+  width: 100%;
+  padding: 30px 30px 30px;
+  margin-bottom:1px;
+  border: none;
+  // text-align: left;
+  // i {
+  //   font-size: 24px;
+  //   position: absolute;
+  //   left:20px;
+  // }
+  &:hover,
+  &:focus {
+    color: #eceff1;
+    text-decoration: none;
+  }
+
+}
+nav.menu {
+  .btn-group {
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    li {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      overflow-y: hidden;
+      width: 100%;
+      &.active {
+        .btn-menu {
+          background: #455a64;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .btn-group {
+    background-color: white;
+    li {
+      // display: inline-block;
+      .btn-menu {
+        // display: inline-block;
+      }
+    }
+  }
+}
+@media (min-width: 1200px) {
+  .btn-group {
+    li {
+      // display: block;
+      .btn-menu {
+        // display: block;
+      }
+    }
+  }
+}
+
+
+.red-bar.ng-enter {
+  transition:all ease-in 0.5s;
+  max-height: 0px;
+}
+.red-bar.ng-leave.ng-leave-active {
+  max-height: 0px;
+}
+
+.red-bar.ng-leave {
+  transition:all ease-in 0.5s;
+  max-height: 200px;
+}
+
+.red-bar.ng-enter.ng-enter-active {
+  max-height: 200px;
+}
+
+.background-design{
+  background: linear-gradient(to bottom, 
+            rgba(227,22,39,1) 0%, 
+            rgba(227,22,39,1) 32%, 
+            rgba(255,0,132,1) 70%, 
+            rgba(255,0,132,1) 100%);
+}

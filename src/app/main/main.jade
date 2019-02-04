@@ -1,0 +1,10 @@
+.row.row-dashboard
+  //- data-offset-top="150" bs-affix bs-navbar
+  .col-menu.col-lg-2.col-md-12
+      ng-include(src='"app/includes/menu.html"')
+  .col-content.col-lg-10.col-md-12
+    .row
+      .col-md-12.col-header(class="divheader")
+        ng-include(src='"app/includes/header.html"')
+      .col-md-12(class="divbody")   
+        .view(ui-view='layoutContent', class="view")

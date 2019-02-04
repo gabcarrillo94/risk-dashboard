@@ -1,0 +1,16 @@
+.col-md-8 .row{
+    margin: 2%;
+    margin-left: -2%;
+    &:nth-child(5){
+        margin-top: 6%;
+    }
+}
+
+.col-md-4 .row .col-md-12:nth-child(1){
+    margin-bottom: 4%;
+}
+
+table.table{
+    background: rgba(128, 128, 128, 0.05);
+}
+

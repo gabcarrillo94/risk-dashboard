@@ -1,0 +1,22 @@
+.nav-tabs {
+  li {
+    .btn-raised {
+      position: relative;
+      padding-right: 30px;
+      text-align: center;
+      line-height: 20px;
+      .close-tab {
+        display: block;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        border-radius:  50%;
+        margin-top: -10px;
+        background: rgba(255, 255, 255, 0.5);
+        color: #009688;
+      }
+    }
+  }
+}

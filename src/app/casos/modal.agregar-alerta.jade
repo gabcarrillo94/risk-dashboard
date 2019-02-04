@@ -1,0 +1,56 @@
+.modal(tabindex="-1" role="dialog")
+  .modal-dialog
+    .modal-content
+      .modal-header
+        a.close(type="button", abm-component , ng-click="$hide()") ×
+        h4.modal-title Listado de Eventos
+      .modal-body
+        //- risk-datatable(id="alertas-casos" config="configAlarmas" api="alarmas.api" selected="selectedEvents")
+        risk-grid(  id="alertas" 
+                    table-css="table table-striped table-hover table-striped table-colors" 
+                    config="configAlarmas" 
+                    api="alarmas.api" 
+                    asignacion="true" 
+                    selected-itms="selectedEvents")
+        .clearfix
+      
+        //- table.  table.table-striped.table-hover.table-striped.table-colors(st-table="alertasDetalle", st-safe-src="alertasDetalleSrc")
+        //-   thead
+        //-     tr
+        //-       th 
+        //-       th Id
+        //-       th Tipo    
+        //-       th Criticidad    
+        //-     tr
+        //-       th
+        //-       th(colspan='7')
+        //-         abm-form-group.form-group
+        //-           input.form-control(type='search', placeholder='Buscar...', ng-model='searchAlerta', id='searchAlerta', abm-form-control, on-enter='search()', ng-change='searchBarChange()')
+
+        //-   tbody
+        //-     tr(ng-repeat="item in alertasSummary", ng-dblclick="" )
+        //-       td 
+        //-         .checkbox(abm-checkbox='')
+        //-           input(type='checkbox', ng-model='alertas[item.id]')
+        //-       td {{item.id}}
+        //-       td {{item.tipo}}
+        //-       td {{item.criticidad}}
+        //-   tfoot
+        //-     tr
+        //-       td.text-center(colspan='8')
+        //-         ul.pagination
+        //-           li(ng-show='showLessArrow()')
+        //-             a(ng-click='goToPage("start")') «
+        //-           li(ng-show='showLessArrow()')
+        //-             a(ng-click='goToPage("1less")') &lt;
+        //-           li(ng-repeat='pagina in pagination.rule', ng-class='{ active: pagina == pagination.page }')
+        //-             a(ng-click='goToPage(pagina)') {{ pagina }}
+        //-           li(ng-show='showMoreArrow()')
+        //-             a(ng-click='goToPage("1more")') &gt;
+        //-           li(ng-show='showMoreArrow()')
+        //-             a(ng-click='goToPage("end")')
+        //-               | »
+        //-               .ripple-container
+      .modal-footer
+        button.btn.btn-default.btn-cancelar(type='button', ng-click="$hide()", style="color: white;") Cerrar
+        button.btn.btn-primary.btn-crear(type='button', ng-click="asignarAlertas()", style="color: white;") Asignar

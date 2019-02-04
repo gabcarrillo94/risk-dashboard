@@ -1,0 +1,17 @@
+ @media #{ (min-width:768px) and (max-width:1200px)} {
+   .panel.panel-files {
+     .col-xs-8,
+     .col-xs-4 {
+       width: 100%;
+     }
+     btn-group {
+       .btn {
+         padding: 8px 0;
+       }
+     }
+     .list-archivos {
+       margin-top: 20px;
+     }
+   }
+  
+}

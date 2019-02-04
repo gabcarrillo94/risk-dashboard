@@ -1,0 +1,1 @@
+scp -r ./dist/. variacodeuser@dev.variacode.com:/home/variacodeuser/dashboard

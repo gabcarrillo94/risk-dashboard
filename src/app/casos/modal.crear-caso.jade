@@ -1,0 +1,77 @@
+.modal(tabindex="-1", role="dialog")
+  .modal-dialog
+    .modal-content
+      .modal-header
+        a.close(type="button", abm-component , ng-click="$hide()") ×
+        h4.modal-title Crear Caso
+      .modal-body
+        div
+          .row(ng-if='alerta.casosLink && alerta.casosLink.length>0')
+            .col-xs-12
+              .panel.panel-warning
+                .panel-heading
+                  h3.panel-title
+                    i.icon-notifications
+                    | Esta alerta ya tiene casos asociados
+          .row(ng-if='validacion.show')
+            .col-xs-12
+              .panel.panel-primary
+                .panel-heading
+                  h3.panel-title
+                    i.icon-notifications
+                    | {{validacion.content}}
+
+        form(action='')
+          abm-form-group
+            label(data-abm-label='') Nombre
+            input.form-control(type='text', ng-model='inputs.nombre', abm-form-control='', placeholder='Nombre del caso')
+          abm-form-group
+            label.control-label.label-static(for='select', data-abm-label='') Criticidad
+            div
+              select#select.form-control(ng-model='inputs.criticidad')
+                option(value='alta') Alta
+                option(value='media') Media
+                option(value='baja') Baja
+          abm-form-group
+            label(data-abm-label='') Ejecutivo
+            input.form-control(type='text', readonly=true, ng-model='inputs.ejecutivo', abm-form-control='', placeholder='Ejecutivo')
+            
+          abm-form-group
+            label(data-abm-label='') Descripción
+            textarea.form-control(rows='4', ng-model='inputs.descripcion')
+
+        form(action='', ng-if='hasAlert')
+          .row
+            .col-xs-8
+              .row
+                .col-xs-12
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        | {{alerta.tipo + ' ' + alerta.id}}
+                    .panel-body
+                      .row-block
+                        .col-block(label)
+                          | Fecha:
+                        .col-block(data)
+                          | {{alerta.fecha}}
+                      .row-block
+                        .col-block(label)
+                          | Hora:
+                        .col-block(data)
+                          | {{alerta.hora}}
+                      .row-block
+                        .col-block(label)
+                          | Tipo:
+                        .col-block(data)
+                          | {{alerta.tipo}}
+                      .row-block
+                        .col-block(label)
+                          | Criticidad:
+                        .col-block(data)
+                          | {{alerta.criticidad}}
+      .modal-footer
+        button.btn.btn-default.btn-cancelar(type='button', ng-click="$hide()", style="color: white;") Cancelar
+        button.btn.btn-primary.btn-crear(type='button', ng-click='crearCasoController()', style="color: white;") Crear
+script.
+  $('select').dropdown({ "autoinit" : ".select" });

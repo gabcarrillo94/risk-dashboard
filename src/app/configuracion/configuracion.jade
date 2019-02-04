@@ -1,0 +1,20 @@
+.row
+  .col-md-12
+    .well.panel.panel-info
+      .panel(ng-repeat='rule in configuracion.config', ng-class='rule.active ? "panel-ceptinel" : "panel-default"')
+        .panel-heading.panel-heading-config
+          | {{ rule.name }}:     
+          small {{rule.description}}
+          .togglebutton(abm-toggle, style='float:right')
+            input(type='checkbox', ng-model='rule.active', ng-change='configuracion.addChange(rule, true)')
+          a.btn-config.pull-right.btn-rosado.btn.btn-default(ng-show='rule.changes || rule.changes > 0', ng-click='configuracion.cancelChanges(rule)', ng-disabled='vm.buttonGuardando[rule.id]') Cancelar
+          a.btn-config.pull-right.btn-rosado.btn.btn-default(ng-show='rule.changes || rule.changes > 0', ng-click='configuracion.preSaveRule(rule)', ng-disabled='vm.buttonGuardando[rule.id]') Guardar
+        form.panel-body(action='')
+          div(ng-repeat='attr in rule.attributes')
+            abm-form-group(ng-show='configuracion.valType(attr.type) == "string"')
+              label(data-abm-label='') {{ attr.name }}
+              input.form-control(type='text', ng-model='attr.value', ng-disabled='rule.active == false', ng-change='configuracion.addChange(rule)')
+            .checkbox(abm-checkbox='', ng-show='configuracion.valType(attr.type) == "boolean"')
+              label {{ attr.name }}
+              input(type='checkbox', ng-model='attr.value', ng-disabled='rule.active == false', ng-change='configuracion.addChange(rule)')
+        //- a.btn.btn-primary.btn.btn-raised.active(ng-show='rule.changes || rule.changes > 0', ng-click='configuracion.saveRule(rule)', ng-disabled='vm.buttonGuardando[rule.id]') Guardar

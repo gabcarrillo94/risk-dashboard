@@ -1,0 +1,238 @@
+.bs-component
+  ul.nav.nav-tabs
+    li(ng-repeat="tab in tabs" ng-class="{ activeTab: alarmas.isActive(tab.id) }")
+      a.btn-raised(href='javascript:;', data-toggle='tab' ng-click="alarmas.setTab(tab.id)" abm-component) {{tab.name}}
+        span(ng-show="tab.id!='index'", ng-click="alarmas.eliminarTabAlerta(tab.id)").close-tab
+          i.icon-close
+
+  .tab-content
+    // -- Grid de listado de alertas
+    .tab-pane.fade.active.in.tab-pane-filters(ng-show="alarmas.isSet('index')")
+      .row
+        .col-md-12
+          .panel(style="overflow:hidden;").panel-info
+            risk-grid(id="alertas" table-css="table table-striped table-hover table-striped table-colors" config="alarmas.configAlarmas" api="alarmas.api", fn-click="alarmas.checkEvent" fn-dbl-click="alarmas.crearTabDetalleAlerta" to-excel="alarmas.prepareExcel")
+            .clearfix
+    
+    // -- Sección de detalle de la alerta
+    .tab-pane.fade.active.in(ng-repeat="tab in tabs", ng-if="tab.id!='index'", ng-show="tab.id!='index' && alarmas.isSet(tab.id)")
+      .row
+        // -- Tarjeta de datos de la alerta
+        .col-md-12
+          .panel
+            //div.text-capitalize(class="critic _{{tab.alert.criticality}}" style="padding:5px; border-radius:0px;") Criticidad: {{tab.alert.criticality}}
+            .panel-heading(class="critic _{{tab.alert.criticality}}" style="background-color: rgb(40,53,147); color: rgba(255,255,255,0.87); border-radius:0px;")
+              span Criticidad: {{tab.alert.criticality}}
+              h3.panel-title.text-capitalize(style="border:none; font-size:30px;")
+                | {{tab.alert.id}} 
+                span(style="font-size:20px;") {{tab.alert.ruleDescription}}
+              span Fecha emisión: {{tab.alert.timestamp + ', ' + tab.alert.moment.fromNow()}}
+
+              md-button(class="pull-right md-raised md-primary md-fab md-mini md-ink-ripple" 
+                        ng-click="alarmas.crearCaso(tab.alert)" 
+                        style="background-color: white; color: black;") 
+                md-tooltip(md-direction="left") Crear Caso
+                i(class="fa fa-plus" aria-hidden="true")
+            
+            //md-list
+              md-subheader(class="md-no-sticky") Parámetros
+              md-list-item(ng-repeat="param in tab.alert.eventBody.entry" ng-click="null")
+                p 
+                  i(class="fa fa-plus" aria-hidden="true") 
+                  span &nbsp;{{param.key}} {{param.value}}
+                md-divider
+              md-subheader(class="md-no-sticky") Eventos Relacionados
+              
+              md-list-item(class="md-2-line secondary-button-padding" ng-repeat="event in tab.alert.events")
+                div(class="md-list-item-text" layout="column")
+                  h3.text-capitalize(style="margin-top:5px;") {{event.tipo}} {{event.id}}
+                  p Fecha: {{event.fecha}} / Hora: {{event.hora}}
+                  ul
+                    li(ng-repeat='param in event.params')
+                      span {{ param.key }} : {{ param.value }}
+                md-button(class="md-secondary critic _{{event.criticidad}}" style="font-size:.9em") Criticidad: {{event.criticidad}}
+                md-divider(ng-if="!$last")
+
+            .panel-body
+              .panel
+                .panel-heading(style="background-color: #b9b9b9; color: white;")
+                      h3.panel-title(style="border:none")
+                        | Parámetros
+                .scroll(style="margin:15px;")
+                      table.table.table-striped.table-hover
+                        thead
+                          tr
+                              th Nombre
+                              th Valor
+                              //- th Descripción
+                        tbody
+                          tr(ng-repeat="param in tab.alert.eventBody.entry")
+                              td {{param.key}}
+                              td {{param.value}}
+                              //- td {{param.description}}
+      
+              
+              .panel
+                .panel-heading(style="background-color: #b9b9b9; color: white;")
+                  h3.panel-title(style="border:none")
+                    | Eventos Relacionados
+                .panel-body
+                  ul.list-eventos
+                    li.item-evento.panel(ng-repeat="event in tab.alert.events")
+                      .panel-heading
+                        h3.panel-title.text-capitalize {{event.tipo}} {{event.id}}
+                        span Criticidad: {{event.criticidad}} / Fecha: {{event.fecha}} / Hora: {{event.hora}}
+                      .panel-body
+                        .evento-block
+                          ul
+                            li(ng-repeat='param in event.params')
+                              span {{ param.key }} : {{ param.value }}
+
+            //.panel-footer
+              .row
+                .col-md-8.col-md-offset-4.col-xs-12
+                  //- a.pull-right.btn-rosado.btn.btn-default(abm-component ng-click="alarmas.crearCaso(tab.alert)") Crear Caso
+                  md-button(class="pull-right md-raised md-primary md-button" 
+                            ng-click="alarmas.crearCaso(tab.alert)" 
+                            style="background-color: #ef4264;") Crear Caso
+                  //- a.pull-right.btn.btn-default(abm-component) Generar Reporte
+        
+      //-.row
+        .col-md-5.col-xs-12
+          .row
+            .col-xs-12
+              .panel.panel-primary
+                .panel-heading
+                  h3.panel-title(style="text-transform: capitalize;")
+                    | {{tab.alert.labels + ' ' + tab.alert.id}}
+                .panel-body
+                  table.table.table-striped.table-hover
+                    tbody
+                      tr
+                        td Fecha emisión:
+                        td {{tab.alert.timestamp}}
+                      //tr
+                      //  td Hora emisión:
+                      //  td {{tab.alert.hora}}
+                      tr
+                        td Tipo:
+                        td {{tab.alert.labels}}
+                      tr
+                        td Criticidad:
+                        td {{tab.alert.criticality}}
+
+                .panel-footer
+                  .row
+                    .col-md-8.col-md-offset-4.col-xs-12
+                      a.pull-right.btn-rosado.btn.btn-default(abm-component ng-click="alarmas.crearCaso(tab.alert)") Crear Caso
+                      //- a.pull-right.btn.btn-default(abm-component) Generar Reporte
+
+        .col-md-7.col-xs-12
+          .row
+            .col-xs-12
+              .panel.panel-primary
+                .panel-heading
+                  h3.panel-title
+                    | Parámetros
+                .panel-body
+                  .scroll
+                    table.table.table-striped.table-hover
+                      thead
+                        tr
+                            th Nombre
+                            th Valor
+                            //- th Descripción
+                      tbody
+                        tr(ng-repeat="param in tab.alert.eventBody.entry")
+                            td {{param.key}}
+                            td {{param.value}}
+                            //- td {{param.description}}
+
+
+          //- .row
+          //-   .col-md-5.col-xs-12
+          //-     .row
+          //-       .col-xs-12
+          //-         .panel.panel-primary
+          //-           .panel-heading
+          //-             h3.panel-title
+          //-               | Casos asociados
+          //-           .panel-body
+          //-             .scroll
+          //-               table.table.table-striped.table-hover
+          //-                 thead
+          //-                   tr
+          //-                     th Nombre
+          //-                     th Estado
+          //-                     th Criticidad
+          //-                 tbody
+          //-                   tr(ng-repeat="caso in tab.alert.casosLink")
+          //-                     td {{caso.nombre}}
+          //-                     td {{caso.estado}}
+          //-                     td {{caso.criticidad}}
+
+          //- .col-md-7.col-xs-12
+          //-   .panel.panel-primary.panel-files
+          //-     .panel-heading
+          //-       h3.panel-title
+          //-         | Archivos Relacionados
+          //-         span.badge {{tab.alert.uploader.queue.length }}
+          //-     .panel-body
+          //-       .row
+          //-         .col-xs-6
+          //-           .box-upload
+          //-             input(type='file',name="file" , id="file" nv-file-select='', uploader='tab.uploader' inpu-file=)
+          //-             label(for="file")
+          //-               a.btn-upload-file
+          //-                 i.icono-upload-file
+          //-               span Escoge un archivo
+          //-           br
+          //-           ul.list-archivos
+          //-             li(ng-repeat='item in tab.uploader.queue')
+          //-               i.icon-attach_file
+          //-               span(ng-bind='item.file.name')
+          //-               a(ng-click='item.upload()' title="Subir archivo {{item.file.name}}" )
+          //-                 i.icon-file_upload
+          //-           .progress
+          //-             .progress-bar.progress-bar-info( ng-style="{ 'width': tab.uploader.progress + '%' }")
+          //-         .col-xs-6
+          //-           .scroll
+          //-             table.table.table-striped.table-hover
+          //-               tbody
+          //-                 tr(ng-repeat='uploadedFile in tab.alert.files')
+          //-                   td
+          //-                     a(href="uploadedFile.url", target='_blank') {{uploadedFile.name}}
+          //-            //ul.list-archivos
+          //-             li(ng-repeat='uploadedFile in tab.alert.files')
+          //-               a(href="uploadedFile.url", target='_blank') {{uploadedFile.name}}
+          //-                 //i.icon-attach_file
+          //-               //span ({{uploadedFile.uploadedBy}} / {{uploadedFile.fecha}} {{uploadedFile.hora}})
+          //-     .panel-footer
+          //-           btn-group.btn-group-justified.btn-group-raised
+          //-             a.btn.btn-default(type='button', ng-click='tab.uploader.uploadAll()', ng-disabled='!tab.uploader.getNotUploadedItems().length')
+          //-               span.glyphicon.glyphicon-upload
+          //-               |  Subir todo
+          //-             a.btn.btn-default(type='button', ng-click='tab.uploader.cancelAll()', ng-disabled='!tab.uploader.isUploading')
+          //-               span.glyphicon.glyphicon-ban-circle
+          //-               |  Cancelar
+          //-             a.btn.btn-default(type='button', ng-click='tab.uploader.clearQueue()', ng-disabled='!tab.uploader.queue.length')
+          //-               span.glyphicon.glyphicon-trash
+          //-               |  Borrar todo
+
+          .row
+            .col-xs-12
+              .panel.panel-primary
+                .panel-heading
+                  h3.panel-title
+                    | Eventos Relacionados
+                .panel-body
+                  ul.list-eventos
+                    li.item-evento.panel.panel-primary(ng-repeat="event in tab.alert.events")
+                      .panel-heading
+                        h3.panel-title Evento {{event.id}} / {{event.fecha}}
+                        span ID: {{event.id}} / Criticidad: {{event.criticidad}} / Fecha: {{event.fecha}} / Hora: {{event.hora}}
+                      .panel-body
+                        .evento-block
+                          ul
+                            li(ng-repeat='param in event.params')
+                              span {{ param.key }} : {{ param.value }}

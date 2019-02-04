@@ -1,0 +1,264 @@
+/**
+ *  If you want to override some bootstrap variables, you have to change values here.
+ *  The list of variables are listed here bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
+ */
+$navbar-inverse-link-color: #5AADBB;
+$icon-font-path: "../../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
+$icomoon-font-path: "../assets/icons/fonts/" !default;
+
+/**
+ *  Do not remove the comments below. It's the markers used by wiredep to inject
+  *  sass dependencies when defined in the bower.json of your dependencies
+ */
+// bower:scss
+// endbower
+/**
+ *  Do not remove the comments below. It's the markers used by gulp-inject to inject
+ *  all your sass files automatically
+ */
+// injector
+// endinjector
+
+
+@import "../assets/icons/style.scss";
+//@import "../../bower_components/bootstrap-material-design/dist/css/bootstrap-material-design.css";
+
+@import "scss/variables";
+@import "scss/header";
+@import "scss/menu";
+@import "scss/elementos";
+@import "scss/discussion";
+@import "scss/casos";
+@import "scss/panel-files";
+@import "scss/tabs";
+@import "scss/themes/septinel";
+@import "scss/media";
+@import "scss/_usuarios.scss";
+@import "scss/_perfiles.scss";
+@import "scss/_recuperar_password.scss";
+body {
+  color: $color-text;
+  font-family: 'Varela Round', sans-serif;
+}
+.divheader {
+  z-index: 2
+}
+.divbody{
+  z-index: 1
+}
+a {
+  color:$color-link;
+  text-decoration: none;
+  cursor: pointer;
+  &:hover {
+    color:$color-link;
+    text-decoration: none;
+  }
+}
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../../bower_components/material-design-iconfont/iconfont/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+       local('MaterialIcons-Regular'),
+       url(../../bower_components/material-design-iconfont/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
+       url(../../bower_components/material-design-iconfont/iconfont/MaterialIcons-Regular.woff) format('woff'),
+       url(../../bower_components/material-design-iconfont/iconfont/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+.back-info {
+  background-color: #03a9f4;
+  color: #fff;
+}
+.modal-backdrop.am-fade {
+  opacity: .5;
+  transition: opacity .15s linear;
+  &.ng-enter {
+    opacity: 0;
+    &.ng-enter-active {
+      opacity: .5;
+    }
+  }
+  &.ng-leave {
+    opacity: .5;
+    &.ng-leave-active {
+      opacity: 0;
+    }
+  }
+}
+
+
+@mixin calc($property, $expression) {
+  #{$property}: -webkit-calc(#{$expression});
+  #{$property}: -moz-calc(#{$expression});
+  #{$property}: -o-calc(#{$expression});
+  #{$property}: calc(#{$expression});
+}
+
+
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+.thumbnail {
+  height: 200px;
+
+  img.pull-right {
+    width: 50px;
+  }
+}
+
+
+
+.app-view {
+  .form-group.form-group-sm label.control-label {
+    font-size: 12px;
+  }
+  .well.panel {
+    &.panel-chart {
+      padding: 0;
+      .panel-heading {
+        color:#fff;
+        background: #00bcd4;
+      }
+    }
+  }
+}
+.col-content {
+  padding: 15px;
+}
+.row-dashboard {
+  background: #546e7a;
+}
+.col-content {
+  background: #ffffff;
+  @include calc(min-height, "100vh - #{$header}");
+  height: 100%;
+}
+.nav-tabs > li.active {
+ background: rgba(255,255,255,0.3); 
+}
+.row-dashboard {
+  
+}
+.row-block {
+    letter-spacing: -.31em;
+    text-rendering: optimizespeed;
+    font-family: FreeSans,Arimo,"Droid Sans",Helvetica,Arial,sans-serif;
+    display: -webkit-flex;
+    -webkit-flex-flow: row wrap;
+    display: -ms-flexbox;
+    -ms-flex-flow: row wrap;
+    -ms-align-content: flex-start;
+    -webkit-align-content: flex-start;
+    align-content: flex-start;
+}
+.col-block {
+    display: inline-block;
+    zoom: 1;
+    letter-spacing: normal;
+    word-spacing: normal;
+    vertical-align: top;
+    text-rendering: auto;
+}
+.tab-content {
+    .tab-pane {
+      padding: 20px 0;
+    }
+ }
+
+.box-upload {
+  position: relative;
+  text-align: center;
+  .btn-upload-file {
+    display: inline-block;
+    i {
+      font-size: 40px;
+      line-height: 52px;
+    }
+   
+  }
+  input[type=file] {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+  }
+  label {
+    span {
+      display: block;
+      margin-top: 5px;
+    }
+  }
+}
+.list-archivos {
+  padding: 0;
+  margin: 0;
+  li {
+    list-style: none;
+  }
+}
+ 
+.progress {
+    height: 4px;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background: #c8c8c8;
+}
+ 
+ .panel.panel-success > .panel-heading {
+    background-color: #26a69a;
+}
+
+.input-recovery{
+  height: 35px;
+  font-size: 18px;
+  width: 100%;
+  padding: 2%;
+  border: 2px solid rgba(128, 128, 128, 0.75);
+}
+
+.text-field{
+  margin-bottom: 5%;
+  color : #474747;
+}

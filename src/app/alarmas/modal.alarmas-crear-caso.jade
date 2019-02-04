@@ -1,0 +1,84 @@
+.modal(tabindex="-1", role="dialog")
+  .modal-dialog
+    .modal-content
+      .modal-header
+        a.close(type="button", abm-component , ng-click="$hide()") ×
+        h4.modal-title Crear Caso - Incidencia {{ alertaId }}
+      .modal-body
+        div
+          .row(ng-if='alerta.casosLink && alerta.casosLink.length>0')
+            .col-xs-12
+              .panel.panel-warning
+                .panel-heading
+                  h3.panel-title
+                    i.icon-notifications
+                    | Esta alerta ya tiene casos asociados
+          .row(ng-if='validacion.show')
+            .col-xs-12
+              .panel.panel-primary
+                .panel-heading
+                  h3.panel-title
+                    i.icon-notifications
+                    | {{validacion.content}}
+
+        form(action='')
+          abm-form-group
+            label(data-abm-label='') Nombre
+            input.form-control(type='text', ng-model='nombre', ng-change='inputChange("nombre", nombre)', abm-form-control='', placeholder='Nombre del caso')
+          abm-form-group
+            label.control-label.label-static(for='select', data-abm-label='') Criticidad
+            div
+              select#select.form-control(ng-model='criticidad', ng-change='inputChange("criticidad", criticidad)')
+                option(value='Alta') Alta
+                option(value='Media') Media
+                option(value='Baja') Baja
+          abm-form-group
+            label(data-abm-label='') Ejecutivo
+            input.form-control(type='text', readonly=true, ng-model='ejecutivo', abm-form-control='', placeholder='Ejecutivo')
+            
+          abm-form-group
+            label(data-abm-label='') Descripción
+            textarea.form-control(rows='4', ng-model='descripcion', ng-change='inputChange("descripcion", descripcion)')
+
+        form(action='', ng-if='hasAlert')
+          .row
+            .col-xs-8
+              .row
+                .col-xs-12
+                  .panel.panel-primary
+                    .panel-heading
+                      h3.panel-title
+                        | {{alerta.tipo + ' ' + alerta.id}}
+                    .panel-body
+                      .row-block
+                        .col-block(label)
+                          | Fecha:
+                        .col-block(data)
+                          | {{alerta.fecha}}
+                      .row-block
+                        .col-block(label)
+                          | Hora:
+                        .col-block(data)
+                          | {{alerta.hora}}
+                      .row-block
+                        .col-block(label)
+                          | Tipo:
+                        .col-block(data)
+                          | {{alerta.tipo}}
+                      .row-block
+                        .col-block(label)
+                          | Criticidad:
+                        .col-block(data)
+                          | {{alerta.criticidad}}
+                      .row-block
+                        
+      .modal-footer
+        .row
+          .col-md-12
+            .alert.alert-dismissible.alert-success.text-center(ng-show='casoCreado')
+              | Caso creado exitosamente.
+          .col-md-12(ng-hide='caseProcessing')
+            button.btn.btn-default(type='button', ng-click="$hide()") Cancelar
+            button.btn.btn-primary(type='button', ng-click='createCase()') Crear Caso
+script.
+  $('select').dropdown({ "autoinit" : ".select" });

@@ -1,0 +1,583 @@
+.bs-component
+  ul.nav.nav-tabs
+
+    li(ng-repeat="tab in tabsCasos" ng-class="{ activeTab: casos.isActive(tab.id) }")
+      a.btn-raised(href='javascript:;', data-toggle='tab' ng-click="casos.setTab(tab.id)" abm-component) {{tab.name}}
+        span(ng-show="tab.id!='index'", ng-click="casos.eliminarTabCaso(tab.id)").close-tab
+          i.icon-close
+
+  .tab-content
+    .tab-pane.fade.active.in(ng-show="casos.isSet('index')")
+      .row
+        .col-md-12
+          .well.panel.panel-info
+            a.btn-modal-caso.btn.btn-default(abm-component ng-click="casos.showModal()")
+              i.material-icons(title="Crear un Caso") add_circle
+            risk-grid(id="casos-table" 
+                      table-css="table table-striped table-hover table-striped table-colors" 
+                      config="casos.configCases" 
+                      api="casos.api", 
+                      fn-click="casos.crearTabDetalleCaso")
+            .clearfix
+            //-.table100.ver5.m-b-110
+            //-  .table100-head
+            //-    table
+            //-      thead
+            //-        tr.row100.head
+            //-          th.cell100.column1 id
+            //-          th.cell100.column2(ng-click='casos.sortBy("title")') 
+            //-            | Nombre    
+            //-            span(ng-show='casos.filters.sortBy == "title"') 
+            //-              span(ng-show='casos.filters.sort == "asc"') ▲
+            //-              span(ng-show='casos.filters.sort == "desc"') ▼
+            //-          th.cell100.column3 Fecha
+            //-          th.cell100.column4 Hora
+            //-          th.cell100.column5(ng-click='casos.sortBy("state")') 
+            //-            | Estado    
+            //-            span(ng-show='casos.filters.sortBy == "state"') 
+            //-              span(ng-show='casos.filters.sort == "asc"') ▲
+            //-              span(ng-show='casos.filters.sort == "desc"') ▼
+                      //- th.cell100.column6 Tipo
+                      //- th(st-sort="tipo") Tipo
+            //-          th.cell100.column7(ng-click='casos.sortBy("criticality")') 
+            //-            | Criticidad    
+            //-            span(ng-show='casos.filters.sortBy == "criticality"') 
+            //-              span(ng-show='casos.filters.sort == "asc"') ▲
+            //-              span(ng-show='casos.filters.sort == "desc"') ▼
+            //-          th.cell100.column8(ng-click='casos.sortBy("user")') 
+            //-            | Ejecutivo    
+            //-            span(ng-show='casos.filters.sortBy == "user"') 
+            //-              span(ng-show='casos.filters.sort == "asc"') ▲
+            //-              span(ng-show='casos.filters.sort == "desc"') ▼
+            //-          th.cell100.column9
+            //-  .table100-body.js-pscroll
+            //-    table
+            //-      tbody
+            //-        tr.row100.body(ng-repeat="item in casos.cases", ng-dblclick="casos.crearTabDetalleCaso(item)")
+            //-          td.cell100.column1 {{item.id}}
+            //-          td.cell100.column2.text-capitalize {{item.titulo}}
+            //-          td.cell100.column3 {{item.fecha}}
+            //-          td.cell100.column4 {{item.hora}}
+            //-          td.cell100.column5.text-capitalize {{item.estado}}
+                      //td {{item.tipo}}
+                      //- td.cell100.column6.text-capitalize {{item.tipo}}
+            //-          td.cell100.column7.text-capitalize {{item.criticidad}}
+            //-          td.cell100.column8.text-capitalize {{item.usuario.nombre}}
+            //-          td.cell100.column9
+            //-            a(data-title="Ver detalle", ng-click="casos.crearTabDetalleCaso(item)", bs-tooltip, style="font-size: 25px;")
+            //-              i.icon-visibility
+            //-  table.table.table-hover
+            //-    tbody
+            //-      tr
+            //-        td.text-center(colspan='8', style="background: white!important")
+            //-          ul.pagination
+            //-            li(ng-show='casos.showLessArrow()')
+            //-              a(ng-click='casos.goToPage("start")') «
+            //-            li(ng-show='casos.showLessArrow()')
+            //-              a(ng-click='casos.goToPage("1less")') &lt;
+            //-            li(ng-repeat='pagina in casos.pagination.rule', ng-class='{ active: pagina == casos.pagination.page }')
+            //-              a(ng-click='casos.goToPage(pagina)') {{ pagina }}
+            //-            li(ng-show='casos.showMoreArrow()')
+            //-              a(ng-click='casos.goToPage("1more")') &gt;
+            //-            li(ng-show='casos.showMoreArrow()')
+            //-              a(ng-click='casos.goToPage("end")')
+            //-                | »
+            //-                .ripple-container
+          
+            //-a.btn-modal-caso.btn.btn-default(abm-component ng-click="casos.showModal()")
+            //-  i.material-icons(title="Crear un Caso") add_circle
+            //-.search-content
+            //-  input(id="btn-search", name="search", type='search', ng-model='casos.searchCase', on-enter='casos.search()', ng-change='casos.searchOnChange()', placeholder="¿Qué estamos buscando?")
+            //-  input(id="btn-search-icon", value="Rechercher", type="submit")
+            //-table#datatable-case.mdl-data-table(style="width:100%")
+            //-  thead
+            //-    tr
+            //-      th id
+            //-      th Nombre
+            //-      th Fecha
+            //-      th Hora
+            //-      th Estado
+            //-      th Tipo
+            //-      th Criticidad
+            //-      th Ejecutivo
+            //-      th
+            //-  tbody
+            //-    tr(ng-repeat="item in casos.cases", ng-dblclick="casos.crearTabDetalleCaso(item)")
+            //-      td {{item.id}}
+            //-      td.text-capitalize {{item.titulo}}
+            //-      td {{item.fecha}}
+            //-      td {{item.hora}}
+            //-      td.text-capitalize {{item.estado}}
+            //-      td.text-capitalize {{item.tipo}}
+            //-      td.text-capitalize {{item.criticidad}}
+            //-      td.text-capitalize {{item.usuario.nombre}}
+            //-      td
+            //-        a(data-title="Ver detalle", ng-click="casos.crearTabDetalleCaso(item)", bs-tooltip, style="font-size: 25px;")
+            //-          i.icon-visibility
+                            
+            //-table.table.table-striped.table-hover(st-table="main.casosDetalle", st-safe-src="main.casosDetalleSrc")
+            //-  thead
+            //-    tr
+            //-      th id
+            //-      th(ng-click='casos.sortBy("title")') 
+            //-        | Nombre    
+            //-        span(ng-show='casos.filters.sortBy == "title"') 
+            //-          span(ng-show='casos.filters.sort == "asc"') ▲
+            //-          span(ng-show='casos.filters.sort == "desc"') ▼
+            //-      th Fecha
+            //-      th Hora
+                  //- th(st-sort="tipo") Tipo
+            //-      th(ng-click='casos.sortBy("criticality")') 
+            //-        | Criticidad    
+            //-        span(ng-show='casos.filters.sortBy == "criticality"') 
+            //-          span(ng-show='casos.filters.sort == "asc"') ▲
+            //-          span(ng-show='casos.filters.sort == "desc"') ▼
+            //-      th(ng-click='casos.sortBy("user")') 
+            //-        | Ejecutivo    
+            //-         span(ng-show='casos.filters.sortBy == "user"') 
+            //-         span(ng-show='casos.filters.sort == "asc"') ▲
+            //-          span(ng-show='casos.filters.sort == "desc"') ▼
+            //-      th(ng-click='casos.sortBy("state")') 
+            //-        | Estado    
+            //-        span(ng-show='casos.filters.sortBy == "state"') 
+            //-          span(ng-show='casos.filters.sort == "asc"') ▲
+            //-          span(ng-show='casos.filters.sort == "desc"') ▼
+            //-      th
+            //-    tr
+            //-      th
+            //-      th(colspan='78')
+            //-        abm-form-group.form-group
+            //-          input.form-control(type='search', placeholder='Buscar...', ng-model='casos.searchCase', abm-form-control, on-enter='casos.search()', ng-change='casos.searchOnChange()')
+            //-  tbody
+            //-    tr(ng-repeat="item in casos.cases", ng-dblclick="casos.crearTabDetalleCaso(item)")
+            //-        td {{item.id}}
+            //-        td.text-capitalize {{item.titulo}}
+            //-        td {{item.fecha}}
+            //-        td {{item.hora}}
+                    //- td {{item.tipo}}
+            //-        td.text-capitalize {{item.criticidad}}
+            //-        td.text-capitalize {{item.usuario.nombre}}
+            //-        td.text-capitalize {{item.estado}}
+            //-        th
+            //-          a(data-title="Ver detalle", ng-click="casos.crearTabDetalleCaso(item)", bs-tooltip)
+            //-            i.icon-search
+            //-  tfoot
+            //-    tr
+            //-      td.text-center(colspan='8')
+            //-        ul.pagination
+            //-          li(ng-show='casos.showLessArrow()')
+            //-            a(ng-click='casos.goToPage("start")') «
+            //-          li(ng-show='casos.showLessArrow()')
+            //-            a(ng-click='casos.goToPage("1less")') &lt;
+            //-          li(ng-repeat='pagina in casos.pagination.rule', ng-class='{ active: pagina == casos.pagination.page }')
+            //-            a(ng-click='casos.goToPage(pagina)') {{ pagina }}
+            //-          li(ng-show='casos.showMoreArrow()')
+            //-            a(ng-click='casos.goToPage("1more")') &gt;
+            //-          li(ng-show='casos.showMoreArrow()')
+            //-            a(ng-click='casos.goToPage("end")')
+            //-              | »
+            //-              .ripple-container
+
+
+    .tab-pane.fade.active.in(ng-repeat="tab in tabsCasos", ng-if="tab.id!='index'", ng-show="tab.id!='index' && casos.isSet(tab.id)")
+      .row
+        .col-md-6
+          .well.panel.panel-info.panel-chart
+            div(ng-hide='tab.caso.editando')
+              .panel-body
+                h3.tab-title
+                  | {{tab.caso.titulo}}
+                .ficha-info
+                  .row-block
+                    .col-block(label)
+                      | Fecha:
+                    .col-block(data)
+                      | {{tab.caso.fecha}}
+                  .row-block
+                    .col-block(label)
+                      | Hora:
+                    .col-block(data)
+                      | {{tab.caso.hora}}
+                  .row-block
+                    .col-block(label)
+                      | Ejecutivo:
+                    .col-block(data)
+                      | {{tab.caso.usuario.nombre}}
+                  .row-block
+                    .col-block(label)
+                      | Estado:
+                    .col-block.text-capitalize(data)
+                      | {{tab.caso.estado}}
+                  .row-block
+                    .col-block(label)
+                      | Criticidad:
+                    .col-block.text-capitalize(data)
+                      | {{tab.caso.criticidad}}
+                  .row-block
+                    .col-block(label) Descripción:
+                    .col-block(data) {{tab.caso.descripcion}}
+            form(ng-show='tab.caso.editando')
+              .panel-body
+                h3.tab-title
+                  input(ng-model='tab.casoEdit.titulo')
+                .ficha-info
+                  .row-block
+                    .col-block(label)
+                      | Fecha:
+                    .col-block(data)
+                      | {{tab.caso.fecha}}
+                  .row-block
+                    .col-block(label)
+                      | Hora:
+                    .col-block(data)
+                      | {{tab.caso.hora}}
+                  .row-block
+                    .col-block(label)
+                      | Ejecutivo:
+                    .col-block(data)
+                      abm-form-group.no-padding-no-margin
+                        select.form-control(ng-model='tab.casoEdit.idUsuario')
+                          option(ng-repeat="user in casos.usuarios", value='{{user.userId}}') {{user.userName}}
+              
+                  .row-block
+                    .col-block(label)
+                      | Estado:
+                    .col-block(data)
+                      | {{tab.caso.estado}}
+                      //- abm-form-group.no-padding-no-margin
+                      //-   select.form-control(ng-model='tab.casoEdit.estado')
+                      //-     option(value='Nuevo') Nuevo
+                      //-     option(value='Abierto') Abierto
+                      //-     option(value='Cerrado') Cerrado
+                  .row-block
+                    .col-block(label)
+                      | Criticidad:
+                    .col-block(data)
+                      abm-form-group.no-padding-no-margin
+                        select.form-control(ng-model='tab.casoEdit.criticidad')
+                          option(value='alta') Alta
+                          option(value='media') Media
+                          option(value='baja') Baja
+                  .row-block
+                    .col-block(label) Descripción:
+                    .col-block(data) 
+                      textarea.form-control(ng-model='tab.casoEdit.descripcion', style='resize: none;')
+            .panel-footer
+              .row
+                .col-md-8.col-md-offset-4.col-xs-12
+                  a.btn.btn-raised.active.pull-right.btn-default(abm-component, ng-show='tab.caso.editando', ng-click='casos.cancelarEdicion(tab)') Cancelar
+                  a.btn.btn-raised.active.btn-verde-oscuro.pull-right.btn-primary(abm-component, ng-show='tab.caso.editando', ng-click='casos.saveEdit(tab)') Guardar
+                  a.btn.btn-raised.active.btn-rosado.pull-right.btn-default(abm-component, ng-hide='tab.caso.estado != "cerrado"', ng-click='casos.reOpenCase(tab)') Reabrir Caso
+                  a.btn.btn-raised.active.btn-plomo.pull-right.btn-default(abm-component, ng-hide='tab.caso.estado == "cerrado" || tab.caso.editando', ng-click='casos.closeCase(tab)') Cerrar
+                  a.btn.btn-raised.active.btn-rosado.pull-right.btn-default(abm-component, ng-hide='tab.caso.estado == "cerrado" || tab.caso.editando', ng-click='casos.caseEditable(tab)') Modificar
+              //- a.btn.btn-primary(abm-component) Generar Reporte
+
+            //- .col-md-12
+            //-   .panel.panel-primary
+            //-     .panel-heading
+            //-       h3.panel-title
+            //-         | Eventos asociados a {{tab.caso.titulo}}
+            //-     .panel-body
+            //-       a.btn-rosado.btn.btn-default(abm-component ng-click="casos.showModalAddAlert(tab)") Modificar Eventos
+
+            //-       table.table.table-striped.table-hover
+            //-         thead
+            //-           tr
+            //-               th Id alerta
+            //-               th Fecha
+            //-               th Hora
+            //-               th Tipo
+            //-               th Criticidad
+                          //- th
+                          //-   i.icon-error_outline
+                          //-   | Eventos
+                          //- th
+                          //- th
+            //-         tbody
+            //-           tr(ng-dblclick="casos.toggleDetail(tab.caso, $index)", ng-repeat="alert in tab.caso.alerts")
+            //-               td {{alert.id}}
+            //-               td {{alert.fecha}}
+            //-               td {{alert.hora}}
+            //-               td {{alert.tipo}}
+            //-               td {{alert.criticidad}}
+                          //- td
+                          //-   span.badge
+                          //-     | {{alert.eventos.length}}
+                          //- td.td-icon
+                          //-   a.delete-alert(href="javascript:;", ng-click="casos.showModalDeleAlert(tab, tab.caso, alert)",data-title="Eliminar Alerta", bs-tooltip)
+                          //-     i.icon-delete
+                          //- td.td-icon(ng-click="casos.toggleDetail(tab.caso, $index)")
+                          //-   i(ng-class="{'icon-keyboard_arrow_up': tab.caso.activePosition == $index,'icon-keyboard_arrow_down': tab.caso.activePosition != $index }")
+                      
+            //-           tr(ng-show="tab.caso.activePosition == $index")
+            //-             td(colspan="6")
+            //-               ul.list-eventos
+            //-                 li.item-evento.panel.panel-success(ng-repeat="evento in alert.eventos", ng-dblclick="casos.toggleMensaje(tab.caso, false, alert, evento)")
+            //-                   .panel-heading
+            //-                     h3.panel-title Evento {{evento.id}}
+            //-                       .numero-msj
+            //-                         i.icon-comment
+            //-                         span.badge(ng-dblclick="casos.toggleMensaje(tab.caso, alert, evento)")
+            //-                           | {{evento.comentariosQty}}
+            //-                   .panel-footer
+            //-                     .row-block
+            //-                       .col-block(label)
+            //-                         | ID:
+            //-                       .col-block(data)
+            //-                         |  {{evento.id}}
+            //-                       .col-block(label)
+            //-                         | Fecha:
+            //-                       .col-block(data)
+            //-                         |  {{evento.fecha}}
+            //-                       .col-block(label)
+            //-                         | Hora:
+            //-                       .col-block(data)
+            //-                         |  {{evento.hora}}
+            //-                     .evento-block
+            //-                       | {{evento.texto}}
+            //- .col-md-12
+            //-   .panel.panel-primary.panel-files
+            //-     .panel-heading
+            //-       h3.panel-title
+            //-         i.icon-attach_file
+            //-         | Archivos Relacionados
+            //-         span.badge {{casos.uploader.queue.length }}
+            //-     .panel-body
+            //-       .row
+            //-         .col-xs-8
+            //-           .box-upload
+            //-             input(type='file',name="file" , id="file" nv-file-select='', uploader='tab.uploader' inpu-file=)
+            //-             label(for="file")
+            //-               a.btn.btn-success.btn-fab.btn-upload-file
+            //-                 i.icon-file_upload
+            //-               span Escoge un archivo
+            //-           br
+            //-           ul.list-archivos
+            //-             li(ng-repeat='item in tab.uploader.queue')
+            //-               i.icon-attach_file
+            //-               span(ng-bind='item.file.name')
+            //-               a(ng-click='item.upload()' title="Subir archivo {{item.file.name}}" )
+            //-                 i.icon-file_upload
+            //-           .progress
+            //-             .progress-bar.progress-bar-info( ng-style="{ 'width': tab.uploader.progress + '%' }")
+            //- 
+            //-           btn-group.btn-group-justified.btn-group-raised
+            //-             a.btn.btn-success(type='button', ng-click='tab.uploader.uploadAll()', ng-disabled='!tab.uploader.getNotUploadedItems().length')
+            //-               span.glyphicon.glyphicon-upload
+            //-               |  Subir todo
+            //-             a.btn.btn-info(type='button', ng-click='tab.uploader.cancelAll()', ng-disabled='!tab.uploader.isUploading')
+            //-               span.glyphicon.glyphicon-ban-circle
+            //-               |  Cancelar todo
+            //-             a.btn.btn-danger(type='button', ng-click='tab.uploader.clearQueue()', ng-disabled='!tab.uploader.queue.length')
+            //-               span.glyphicon.glyphicon-trash
+            //-               |  Borrar todo
+            //-         .col-xs-4
+            //-           ul.list-archivos
+            //-             li(ng-repeat='uploadedFile in tab.caso.files')
+            //-               a(data-title="uploadedFile.uploadedBy + ' ' +  uploadedFile.fecha", href="uploadedFile.url") {{uploadedFile.name}}
+            //-                 i.icon-attach_file
+            //-               span .
+            
+            //-   .row(style="padding: 3%;")
+            //-     .file-field.big-2
+            //-       .btn.btn-outline-danger.btn-rounded.waves-effect.btn-lg.float-left
+            //-         span
+            //-           | Sube Tus Archivos
+            //-           i.fa.fa-upload.ml-3(aria-hidden='true')
+            //-         input(type='file', multiple='', onchange='angular.element(this).scope().setFiles(this)')
+            //-     div(ng-show='files.length')
+            //-       div(ng-repeat='file in files.slice(0)')
+            //-         .row
+            //-           .col-md-8
+            //-             span {{file.webkitRelativePath || file.name}}
+            //-           .col-md-4
+            //-             span(ng-switch='file.size > 1024*1024', style="color:#78909c;float: right;")
+            //-               span(ng-switch-when='true') {{file.size / 1024 / 1024 | number:2}} MB
+            //-               span(ng-switch-default='') {{file.size / 1024 | number:2}} kB
+            //-       .row
+            //-         .col-md-4
+            //-           a.btn-rosado.btn.btn-default(ng-click='uploadFile()', style="width: 60%;") Subir
+            //-         .col-md-8
+            //-           div(ng-show='progressVisible', style="margin: 10px 1px;float: right;")
+            //-             .percent {{progress}}%
+            //-             .progress-bar
+            //-               .uploaded(ng-style="{'width': progress+'%'}")
+            //-     div(ng-show='errorSize')
+            //-       span(style="color: red;") Los archivos superan el tamaño permitido
+            //-     div(ng-show='errorExt')
+            //-       span(style="color: red;") Uno o más archivos contienen extensiones no permitidas
+        .col-md-6
+          .well.panel.panel-info.panel-chart
+            .panel-heading.colapseComments(ng-click="casos.toggleMensaje(tab.caso, true)")
+              h3.panel-title.colapseComments
+                span.icon-keyboard_arrow_down(ng-if="!tab.caso.showMensajes")
+                span.icon-keyboard_arrow_up(ng-if="tab.caso.showMensajes")
+                | Archivos Relacionados
+        
+            .panel-body(ng-show="tab.caso.showMensajes")
+              .row
+                .col-xs-12
+                  //- Btn para seleccionar archivos a subir
+                  .box-upload
+                    input(type='file', name="file", id="file" nv-file-select, uploader='tab.uploader' input-file filters="Extensions,Size")
+                    label(for="file")
+                      a.btn.btn-success.btn-fab.btn-upload-file
+                        md-icon(md-font-set="material-icons" class="md-icon-button" style="margin-top:27%;") cloud_upload                            
+                      span Escoge un archivo
+                  br
+                  //- Listado de archivos a ser subidos
+                  ul.list-archivos
+                    li(ng-repeat='item in tab.uploader.queue')
+                      i.icon-attach_file
+                      span(ng-bind='item.file.name')
+                      a(ng-click='item.upload()' title="Subir archivo {{item.file.name}}")
+                        i.icon-file_upload
+                  .progress(ng-show='tab.uploader.isUploading')
+                    .progress-bar.progress-bar-info( ng-style="{ 'width': tab.uploader.progress + '%' }")
+                  //- Btns de carga masiva
+                  btn-group.btn-group-justified.btn-group-raised
+                    a.btn.btn-success(type='button', ng-click='tab.uploader.uploadAll()', ng-disabled='!tab.uploader.getNotUploadedItems().length')
+                      span.glyphicon.glyphicon-upload
+                      |  Subir todo
+                    a.btn.btn-info(type='button', ng-click='tab.uploader.cancelAll()', ng-disabled='!tab.uploader.isUploading')
+                      span.glyphicon.glyphicon-ban-circle
+                      |  Cancelar todo
+                    a.btn.btn-danger(type='button', ng-click='tab.uploader.clearQueue()', ng-disabled='!tab.uploader.queue.length')
+                      span.glyphicon.glyphicon-trash
+                      |  Borrar todo
+              .row
+                .panel-body
+                  //- Lista de archivos subidos
+                  .col-xs-12
+                    ul.list-archivos
+                      li(ng-repeat='uploadedFile in tab.caso.files')
+                        div
+                          .file-tag
+                            p {{uploadedFile.fileName}}
+                            span(ng-hide='uploadedFile.eliminando')
+                              {{uploadedFile.fileUserId.username}} {{uploadedFile.fileCreationDate}}
+                            span(ng-show='uploadedFile.eliminando')
+                              input.form-control-comment.form-control-comment-edit(type='text', style="margin-top: 1%;width:190%", ng-model='uploadedFile.edit.justificacion', placeholder='Justificación de Eliminación')
+                          .file-action(ng-hide='uploadedFile.eliminando')
+                            a(ng-click='casos.descargarArchivo(uploadedFile)', title='Descargar Archivo')
+                              i.material-icons attach_file
+                            a.edit(ng-click='casos.eliminandoArchivo(uploadedFile)', title='Eliminar Archivo')
+                              i.material-icons clear
+                          .file-action-delete(ng-show='uploadedFile.eliminando')
+                            a.btn-rosado.btn.btn-default(ng-click='casos.eliminarArchivo(uploadedFile, tab)', title='Enviar Comentario') Enviar
+                            a.btn-plomo.btn-round.pull-right.btn.btn-default(ng-click='casos.cancelarElimArchivo(uploadedFile)') Cancelar
+                          span .
+      .row
+        .col-md-6
+          .well.panel.panel-info.panel-chart
+            .panel-heading.colapseComments
+              h3.panel-title.colapseComments Eventos asociados
+            .panel-body
+              .row
+                .panel-body(style="padding-top: 0px")
+                  .col-xs-12
+                    a.btn.btn-primary.btn.btn-raised.active(abm-component ng-click="casos.showModalAddAlert(tab)") Asignar Eventos
+                    table.table.table-striped.table-hover
+                      thead
+                        tr
+                            th Id alerta
+                            th Fecha
+                            th Hora
+                            //- th Tipo
+                            //- th Criticidad
+                            th
+                            //- th
+                            //-   i.icon-error_outline
+                            //-   | Eventos
+                            //- th
+                            //- th
+                      tbody
+                        tr(ng-dblclick="casos.toggleDetail(tab.caso, $index)", ng-repeat="alert in tab.caso.alerts")
+                            td {{alert.id}}
+                            td {{alert.fecha}}
+                            td {{alert.hora}}
+                            //- td {{alert.tipo}}
+                            //- td {{alert.criticidad}}
+                            td
+                              a.edit(ng-click='casos.desasignarAlerta(alert, tab)', title='Desasignar Alerta')
+                                i.material-icons clear
+                            //- td
+                            //-   span.badge
+                            //-     | {{alert.eventos.length}}
+                            //- td.td-icon
+                            //-   a.delete-alert(href="javascript:;", ng-click="casos.showModalDeleAlert(tab, tab.caso, alert)",data-title="Eliminar Alerta", bs-tooltip)
+                            //-     i.icon-delete
+                            //- td.td-icon(ng-click="casos.toggleDetail(tab.caso, $index)")
+                            //-   i(ng-class="{'icon-keyboard_arrow_up': tab.caso.activePosition == $index,'icon-keyboard_arrow_down': tab.caso.activePosition != $index }")
+                        
+                        tr(ng-show="tab.caso.activePosition == $index")
+                          td(colspan="6")
+                            ul.list-eventos
+                              li.item-evento.panel.panel-success(ng-repeat="evento in alert.eventos", ng-dblclick="casos.toggleMensaje(tab.caso, false, alert, evento)")
+                                .panel-heading
+                                  h3.panel-title Evento {{evento.id}}
+                                    .numero-msj
+                                      i.icon-comment
+                                      span.badge(ng-dblclick="casos.toggleMensaje(tab.caso, alert, evento)")
+                                        | {{evento.comentariosQty}}
+                                .panel-footer
+                                  .row-block
+                                    .col-block(label)
+                                      | ID:
+                                    .col-block(data)
+                                      |  {{evento.id}}
+                                    .col-block(label)
+                                      | Fecha:
+                                    .col-block(data)
+                                      |  {{evento.fecha}}
+                                    .col-block(label)
+                                      | Hora:
+                                    .col-block(data)
+                                      |  {{evento.hora}}
+                                  .evento-block
+                                    | {{evento.texto}}
+                                
+        .col-md-6
+          .well.panel.panel-info.panel-chart
+            .panel-heading.colapseComments(ng-click="casos.toggleComments(tab.caso, true)")
+              h3.panel-title.colapseComments
+                span.icon-keyboard_arrow_down(ng-if="!tab.caso.showComments")
+                span.icon-keyboard_arrow_up(ng-if="tab.caso.showComments")
+                | Comentarios
+            
+            .panel-body(ng-show="tab.caso.showComments", style="padding:0px")
+              .row
+                .panel-body(style="padding-top: 0px")
+                  .col-xs-12
+                    details
+                      summary(style='padding:1em;') {{tab.caso.comments.length}} comments
+                      ul.list-group
+                        li.list-group-item(ng-repeat='comment in tab.caso.comments')
+                          span.circle
+                            img(src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHBvaW50ZXItZXZlbnRzPSJub25lIiB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoOTAsIDEzNSwgMTEyKTsgd2lkdGg6IDUwcHg7IGhlaWdodDogNTBweDsiPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHk9IjUwJSIgeD0iNTAlIiBkeT0iMC4zNWVtIiBwb2ludGVyLWV2ZW50cz0iYXV0byIgZmlsbD0iI2ZmZmZmZiIgZm9udC1mYW1pbHk9IkhlbHZldGljYU5ldWUtTGlnaHQsSGVsdmV0aWNhIE5ldWUgTGlnaHQsSGVsdmV0aWNhIE5ldWUsSGVsdmV0aWNhLCBBcmlhbCxMdWNpZGEgR3JhbmRlLCBzYW5zLXNlcmlmIiBzdHlsZT0iZm9udC13ZWlnaHQ6IDQwMDsgZm9udC1zaXplOiAzMHB4OyI+QTwvdGV4dD48L3N2Zz4=", style="border-radius:50%;width: 85%;", title="Administrador")
+                          span.title-comments
+                            a(href='#') {{comment.author.username}}
+                            time  {{comment.timestamp}}
+                            p(ng-hide='comment.editando || comment.eliminando') {{comment.comment}}
+                            fieldset.form-group(ng-show='comment.editando')
+                              input.form-control-comment.form-control-comment-edit(type='text', ng-model='comment.edit.comentario')
+                            fieldset.form-group(ng-show='comment.eliminando')
+                              input.form-control-comment.form-control-comment-edit(type='text', ng-model='comment.edit.justificacion', placeholder='Justificación de Eliminación')
+                          ul.list-inline.actions(href='#', ng-hide='comment.editando || comment.eliminando || comment.author.userId!==casos.currentUserId')
+                            li
+                              a.edit(ng-click='casos.commentEditable(comment)',title='Editar Comentario')
+                                i.material-icons create
+                            li
+                              a.edit(ng-click='casos.commentEliminable(comment)', title='Eliminar Comentario')
+                                i.material-icons clear
+                          ul.list-inline.btn-actions(href='#', ng-show='comment.editando || comment.eliminando')
+                            li
+                              a.btn-verde-oscuro.pull-right.btn.btn-default(ng-click='casos.editarComentario(comment, tab)', ng-show='comment.editando', title='Guardar Comentario') Guardar
+                              a.btn-rosado.pull-right.btn.btn-default(ng-click='casos.eliminarComentario(comment, tab)', ng-show='comment.eliminando', title='Enviar Comentario') Enviar
+                            li(ng-show='comment.editando || comment.eliminando')
+                              a.btn-plomo.btn-round.pull-right.btn.btn-default(ng-click='casos.CancelarEdiElimComentario(comment)') Cancelar
+                    form(style="padding: 1em;padding-top: 2em")
+                      fieldset.form-group
+                        input#tabComment.form-control-comment(type='text', placeholder='Agregar un Comentario', ng-model='tab.caso.comment')
+                      a.btn-plomo.btn-round.pull-right.btn.btn-default(ng-click='casos.cancelarComentario(tab)') Cancelar
+                      a.btn-verde-oscuro.pull-right.btn.btn-default(ng-click='casos.publicarComentario(tab)') Publicar

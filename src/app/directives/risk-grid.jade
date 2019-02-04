@@ -1,0 +1,97 @@
+div
+    .container-fluid.filters
+        .header
+            form.form-inline
+                .form-group.pull-left(style="margin-top:0px; padding-bottom:0px")
+
+                    .input-group(ng-repeat="(key, value) in config.columns" ng-if="value.filterable!==undefined")
+                        .dropdown
+                            button.btn.dropdown-toggle(type="button" id="dropdown{{value.name}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true")
+                                | {{value.title}}
+                                span.caret
+                            ul.dropdown-menu
+                                div(ng-if="value.filterable.type==='number'")
+                                    li.input-group
+                                        | Min
+                                        input.form-control(type="text" placeholder="Buscar" ng-model="filters[value.name].min")
+                                    li.input-group
+                                        | Max
+                                        input.form-control(type="text" placeholder="Buscar" ng-model="filters[value.name].max")
+                                div(ng-if="value.filterable.type==='string'")
+                                    li.input-group
+                                        | Contiene
+                                        input.form-control(type="text" placeholder="Buscar" ng-model="filters[value.name].query")
+                                div(ng-if="value.filterable.type==='checkbox'")
+                                    li.input-group
+                                        input.form-control(type="text" placeholder="Buscar" ng-model="innerQuery[value.name]")
+                                        .input-group-addon
+                                            i.glyphicon.glyphicon-search
+                                    li.divider(role="separator")
+                                    li.input-group(ng-repeat-start="(innerKey, innerValue) in filters[value.name]" ng-show="showFilter(innerQuery[value.name], innerKey)")
+                                        .input-group-addon
+                                            input(type="checkbox" ng-model="filters[value.name][innerKey]")
+                                        .form-control.text-capitalize
+                                            |  {{ innerKey }}
+                                    div(ng-repeat-end)
+
+                .search-content(ng-show="id==='casos-table'")
+                    input(id="btn-search", name="search", type='search', ng-model='searchCase', on-enter='search()', ng-change='searchOnChange()', placeholder="¿Qué estamos buscando?")
+                    input(id="btn-search-icon", value="Rechercher", type="submit")
+    
+    table(id="{{id}}" class="risk-table {{tableCss}}" cellspacing="100px")
+        thead
+            tr
+                th(ng-repeat="(key, value) in config.columns" ng-show="!value.hidden")
+                    span( ng-click="sort(value)")
+                        | {{value.title}}
+                        span(style="font-size:10px; padding:5px;" ng-show="value.sortable")
+                            span.glyphicon.glyphicon-chevron-up(ng-show="(config.datasource.params.sortBy == value.name && sortReverse) ")
+                            span.glyphicon.glyphicon-chevron-down(ng-show="(config.datasource.params.sortBy == value.name && !sortReverse) || (config.datasource.params.sortBy==='' || config.datasource.params.sortBy !== value.name)")
+
+        tbody(ng-hide="asignacion")
+            //-| orderBy:sortBy:sortReverse
+            // -uib-popover="{{config.style.trTooltip(data)}}"
+                popover-placement="top"
+                popover-trigger="'mouseenter'"
+            tr(ng-repeat="(keyData, data) in data" ng-click="fnClick(data)" ng-dblclick="fnDblClick(data)" 
+                class="{{config.style.trStyle(data)}}"
+                ng-attr-title="{{config.style.trTooltip(data)}}")
+                td(ng-repeat="(keyColumn, column) in config.columns" ng-show="!column.hidden" class="text-capitalize")
+                    | {{data[column.name]}}
+                    
+        tbody(ng-show="asignacion")
+            tr(ng-repeat="(keyData, data) in data" class="{{config.style.trStyle(data)}}"
+                ng-attr-title="{{config.style.trTooltip(data)}}")
+                td.text-capitalize
+                    | {{data['id']}}
+                td.text-capitalize
+                    | {{data['timestamp']}}
+                td.text-capitalize
+                    | {{data['ruleDescription']}}
+                td.text-capitalize
+                    | {{data['labels']}}
+                td.text-capitalize
+                    | {{data['criticality']}}
+                td.text-capitalize
+                    | {{data['status']}}
+                td
+                    md-checkbox(class="md-primary" ng-click="checkEvent(data['id'])" ng-checked="selectedItms.indexOf(data['id']) >= 0" aria-label="Select Event")
+        tfoot
+            tr
+                td.text-center(colspan='{{visibleColumns-2}}')
+                    ul.pagination
+                        li(ng-show='showLessArrow()')
+                            a(ng-click='goToPage("start")') «
+                        li(ng-show='showLessArrow()')
+                            a(ng-click='goToPage("1less")') &lt;
+                        li(ng-repeat='pagina in pagination.rule', ng-class='{ active: pagina == pagination.page }')
+                            a(ng-click='goToPage(pagina)') {{ pagina }}
+                        li(ng-show='showMoreArrow()')
+                            a(ng-click='goToPage("1more")') &gt;
+                        li(ng-show='showMoreArrow()')
+                            a(ng-click='goToPage("end")')
+                                | »
+                                .ripple-container
+                td(colspan="2", ng-hide="asignacion || id==='casos-table'")
+                    a.btn.btn-rosado.pull-right(ng-click="exportExcel()")
+                        | Exportar a Excel

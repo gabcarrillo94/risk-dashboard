@@ -1,0 +1,227 @@
+.bs-component
+  ul.nav.nav-tabs
+    li(ng-class='{activeTab}')
+      a.btn-raised(href='javascript:;', data-toggle='tab', abm-component='abm-component')
+        span.title SEGURIDAD PERFILES
+  
+  .row
+    // -- Sección del datos del perfil
+    .col-md-12
+      .tab-content.box-title.separate 
+        .row(ng-show="contentPerfil")
+          .col-md-10
+            .alert.alert-danger#alert-msg
+              |{{contentPerfil}}
+        .row
+          .col-md-12
+            .row
+              .col-md-12
+                label.text-title.underline Perfil 
+            .row
+              br
+              .col-md-1
+              .col-md-10.col-sm-12(style="line-height:25px;")
+                .row
+                  .col-md-4.col-sm-12
+                    .input-icon
+                      input.form-control(type='text', 
+                                        ng-model='profile', 
+                                        placeholder='BUSCAR PERFIL ...', 
+                                        uib-typeahead='listaPerfilRolOpcion as listaPerfilRolOpcion.profileId for listaPerfilRolOpcion in listadoPerfilesRolesOpciones | filter:{profileId:$viewValue}', 
+                                        typeahead-show-hint='true', 
+                                        typeahead-min-length='0'
+                                        )
+                      .box-icon(ng-click='busquedaPerfil()')
+                        i.fa.fa-search.search-icon
+                .row
+                  .col-md-4.col-sm-6
+                    label Perfil
+                    input.form-control(type='text'
+                                     ng-model='riskProfile.profileName'
+                                     ng-disabled="!editActive")
+                  .col-md-4.col-sm-6
+                    label Codigo Perfil
+                    input.form-control(type='text' 
+                                     ng-model='riskProfile.profileId'
+                                     ng-disabled="!editActive || !codPerfil")
+                  .col-md-4.col-sm-6
+                    label Perfil Origen
+                    input.form-control(type='text'
+                                       ng-model='riskProfile.originalProfileId'
+                                       ng-disabled="!editActive")
+                  .col-md-12.col-sm-6
+                    label Descripcion
+                    input.form-control(type='text'
+                                       ng-model='riskProfile.descripcion'
+                                       ng-disabled="!editActive")
+                  .col-md-1
+                    md-checkbox(ng-model='riskProfile.activo' 
+                                class="white"
+                                ng-checked="false"
+                                ng-disabled="!editActive"
+                                md-no-ink
+                                aria-label="Checkbox 2")
+                  .col-md-3.text-left
+                    label  ACTIVO
+
+                  .col-md-12
+                      label Roles del perfil
+                      md-select(ng-model="listadoRolesSeleccionados"
+                                ng-model-options="{trackBy: '$value.roleId'}"
+                                multiple)
+                        md-optgroup(label="Roles")
+                                    //ng-click='seleccionarRoles(listadoRoles)'
+                          md-option(ng-value="listadoRoles"
+                                    ng-disabled="!editActive" 
+                                    ng-repeat="listadoRoles in listadoRol") {{listadoRoles.roleDescription}}
+                  
+                  .col-md-12(style="text-align:right")
+                    button.btn-rosado.btn.btn-default.btn-group-sm(type='button'
+                                                                   ng-disabled="!botonesDeAccion.crear"
+                                                                   ng-click='habilitarCrear()') 
+                                                                   |Crear
+                      button.btn-rosado.btn.btn-default.btn-group-sm(type='button'
+                                                                     ng-disabled="!botonesDeAccion.guardar"       
+                                                                     ng-show="!botonesDeAccion.editar"
+                                                                     ng-click='guardarPerfil()') 
+                                                                     |Guardar
+                      button.btn-rosado.btn.btn-default.btn-group-sm(type='button' 
+                                                                      ng-disabled="!botonesDeAccion.editar"
+                                                                      ng-show="botonesDeAccion.editar"  
+                                                                      ng-click='chequearEditarPerfil()') 
+                                                                      |Guardar
+                      button.btn-rosado.btn.btn-default.btn-group-sm(type='button'
+                                                                      ng-disabled="!botonesDeAccion.cancelar"
+                                                                      ng-click='limpiarFormulario()') 
+                                                                      |Cancelar
+
+    //.col-md-6
+      .tab-content.box-title.separate
+        .row(style="margin-bottom:15px;")
+          .col-md-12
+            label.text-title.underline PERFIL HABILITADO PARA
+        .row(ng-repeat='listadoRoles in listadoRol')
+          .col-md-2.col-sm-2.col-xs-2
+            md-checkbox(ng-model='listadoRoles.value'
+                        ng-click='seleccionarRoles(listadoRoles)'
+                        class="white"
+                        ng-disabled="!editActive"
+                        md-no-ink
+                        aria-label="Checkbox 2" )
+          .col-md-10.col-sm-10.col-xs-10
+            label {{listadoRoles.roleDescription}}
+
+
+    // -- Pestañas / Opciones de Sistemas - Opciones de Informes
+    .col-md-12
+      .tab-content.box-title.separate 
+        md-tabs(md-dynamic-height md-border-bottom)
+          md-tab(label="Opciones de Sistemas")
+            md-content(class="md-padding")
+              .row
+                .col-md-6
+                  md-list(style="border:1px solid #e0e0e0;")
+                    md-subheader(class="md-no-sticky" style="height:60px;") 
+                      | Módulos disponibles
+                    md-list-item.btn-ceptinel(ng-click="null" ng-repeat='listadoOpciones in listadoOpcion')
+                      p 
+                        | {{listadoOpciones.tipoFuncion}} - {{listadoOpciones.contenedor}} 
+                        span(style='font-size:.8em;') &nbsp;({{listadoOpciones.idFuncion}})
+                      md-checkbox(ng-model='listadoOpciones.habilitado' 
+                                        class="white"
+                                        ng-click='seleccionarOpciones(listadoOpciones)'
+                                        ng-disabled="!editActive"
+                                        md-no-ink
+                                        aria-label="{{listadoOpciones.idFuncion}}" )
+                      md-divider(ng-if="!$last")
+                
+                .col-md-6
+                  md-list(style="border:1px solid #e0e0e0;")
+                    md-subheader(class="md-no-sticky" style="height:60px;") 
+                      | Módulos Habilitados
+                    md-list-item.btn-ceptinel(ng-click="null" ng-repeat='listadoOpciones in listadoOpcionesSeleccionados')
+                      p 
+                        | {{listadoOpciones.tipoFuncion}} - {{listadoOpciones.contenedor}} 
+                        span(style='font-size:.8em;') &nbsp;({{listadoOpciones.idFuncion}})
+                      md-divider(ng-if="!$last")
+                    md-list-item.btn-ceptinel(ng-show='!listadoOpcionesSeleccionados.length' style="min-height:53px;")
+                      p Sin secciones habilitadas
+
+          md-tab(label="Opciones de Informes")
+            md-content.md-padding.row
+              // -- Listado de grupos
+              .col-md-6
+                md-list(style="border:1px solid #e0e0e0;")
+                  md-subheader(class="md-no-sticky" style="height:60px;")
+                    // -- Menú emergente
+                    | Grupos
+                    md-menu(style="position:relative; top:-10px;" md-position-mode="target-right target").pull-right
+                      md-button(ng-click="$mdMenu.open($event)" class="md-icon-button md-ink-ripple" aria-label="Abrir Menú")
+                        i(class="fa fa-ellipsis-v" aria-hidden="true")
+                      md-menu-content
+                        md-menu-item
+                          md-button(ng-click="null")
+                            md-checkbox(ng-model='settings.filtroGrupos' ng-click="$mdMenu.close()" ng-true-value="true" ng-false-value="undefined" aria-label="Filtras Grupos") 
+                            | Grupos Activos
+                        md-menu-item
+                          md-button(ng-click="settings.cargarGruposPBI()" aria-label="Recargar Grupos")
+                            md-icon(md-font-set="material-icons") autorenew
+                            | Recargar Grupos
+
+                  md-list-item.btn-ceptinel(ng-click="listarReportes(gruposPBI)" ng-repeat='gruposPBI in pbi.groups | orderBy:"-activo" | filter: {activo:settings.filtroGrupos}' ng-show="!loaderGroups")
+                    p 
+                      | {{gruposPBI.name}} 
+                      span(style='font-size:.8em;' ng-show='!gruposPBI.activo') &nbsp;(Grupo Inactivo)
+                    md-checkbox(ng-model='gruposPBI.habilitado' 
+                                    class='white'
+                                    ng-click='seleccionarGruposPBI(gruposPBI)'
+                                    ng-disabled='!editActive || !gruposPBI.activo'
+                                    md-no-ink
+                                    aria-label='{{gruposPBI.name}}')
+                    md-divider(ng-if="!$last")
+                  md-list-item.btn-ceptinel(ng-show='!pbi.groups.length && !loaderGroups')
+                    p Sin grupos disponibles
+                  md-list-item(ng-show='loaderGroups')
+                    p
+                      md-progress-linear(class="md-accent md-hue-2" md-mode="indeterminate")
+
+              // -- Listado de informes
+              .col-md-6
+                md-list(style="border:1px solid #e0e0e0;")
+                  md-subheader(class="md-no-sticky" style="height:60px;") 
+                    | Informes Disponibles {{grupoSelect}}
+                  md-list-item.btn-ceptinel(ng-click="null" ng-repeat='reportesPBI in pbi.reports' style="min-height:53px;")
+                    p {{reportesPBI.name}}
+                    md-divider(ng-if="!$last")
+                  md-list-item.btn-ceptinel(ng-click="null" ng-show='!pbi.reports.length && !loaderReports' style="min-height:53px;")
+                    p Sin informes disponibles
+                  md-list-item(ng-click="null" ng-show='loaderReports' style="min-height:53px;")
+                    p
+                      md-progress-linear(class="md-accent md-hue-2" md-mode="indeterminate")
+     
+    
+    // -- Botones de acción 
+    //.row
+      .col-md-6
+      .col-md-6.pull-right
+        button.btn-rosado.btn.btn-default.btn-group-sm(type='button'
+                                                       ng-disabled="!botonesDeAccion.crear"
+                                                       ng-click='habilitarCrear()') 
+                                                       |Crear
+          button.btn-rosado.btn.btn-default.btn-group-sm(type='button'
+                                                         ng-disabled="!botonesDeAccion.guardar"       
+                                                         ng-show="!botonesDeAccion.editar"
+                                                         ng-click='guardarPerfil()') 
+                                                         |Guardar
+          button.btn-rosado.btn.btn-default.btn-group-sm(type='button' 
+                                                          ng-disabled="!botonesDeAccion.editar"
+                                                          ng-show="botonesDeAccion.editar"  
+                                                          ng-click='chequearEditarPerfil()') 
+                                                          |Guardar
+          button.btn-rosado.btn.btn-default.btn-group-sm(type='button'
+                                                          ng-disabled="!botonesDeAccion.cancelar"
+                                                          ng-click='limpiarFormulario()') 
+                                                          |Cancelar
+    
+    
+          

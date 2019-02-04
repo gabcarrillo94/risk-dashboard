@@ -1,0 +1,52 @@
+.bs-component
+	ul.nav.nav-tabs
+		li(ng-class='{activeTab}')
+			a.btn-raised(href='javascript:;', data-toggle='tab', abm-component='abm-component')
+				span.title INFORMES
+	
+	.tab-content.box-title.separate
+		// -- Titulo
+		.row
+			a.anchor(href='#cr')
+			.dashboard-label-indicador
+				h3(style="border-bottom:3px solid #ef42646e; padding-bottom:5px;") Tipo de Informe
+		
+		// -- Sección de selectores
+		.row
+			.col-md-2
+				md-select(placeholder='Tipo Informe' 
+						ng-model='reportes.tipoReporte'
+						ng-model-options="{trackBy: '$value.id'}")
+					md-option(ng-value='tipo' 
+								ng-repeat='tipo in reportes.tipoReportes'
+								ng-attr-selected="{{ (tipo.id === 'PBI') }}") {{tipo.label}}
+			
+			.col-md-3
+				md-select(placeholder='Grupo'
+							md-on-open="reportes.getGroups()" 
+							ng-model='reportes.grupo',
+							ng-model-options="{trackBy: group.workspaceId}")
+					md-option(ng-value="group" ng-repeat='group in reportes.pbi.groups') {{group.name}}
+			
+			.col-md-3
+				md-select(placeholder='Reportes (Seleccione un grupo)'
+							md-on-open="reportes.getReports()" 
+							ng-model='reportes.reporte',
+							ng-change='reportes.getReport()', 
+							ng-model-options="{trackBy: '$value.id'}"
+							ng-disabled="!reportes.grupo")
+					md-option(ng-value="report" ng-repeat='report in reportes.pbi.reports') {{report.name}}
+	
+		// -- Sección de pestañas de informe/dashboard embebido	
+		div
+			uib-tabset(active="active" style="padding:0;")
+				uib-tab(index="0" heading="Informe" abm-component)
+					.tab-content.box-title
+						#reportContainer(style="width:100%; height:70vh;") 
+							.text-center(style="position: relative; top: 50%;-webkit-transform: translateY(-50%); -o-transform: translateY(-50%); transform: translateY(-50%);")
+									img(src='/assets/images/logo_ceptinel.png')
+				uib-tab(index="1" heading="Dashboard" abm-component ng-show="false") 
+					.tab-content.box-title(style="padding:0; margin:0;")
+						#dashboardContainer(style="width:100%; height:70vh;") 
+							.text-center(style="position: relative; top: 50%;-webkit-transform: translateY(-50%); -o-transform: translateY(-50%); transform: translateY(-50%);")
+								img(src='/assets/images/logo_ceptinel.png')

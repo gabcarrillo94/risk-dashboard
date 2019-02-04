@@ -1,0 +1,164 @@
+.bs-component
+  ul.nav.nav-tabs.box-title
+    li(ng-class='{activeTab}')
+      a.btn-raised(href='javascript:;', data-toggle='tab', abm-component='abm-component')
+        span.title SEGURIDAD
+  .tab-content.box-title.separate
+    .row
+      a.anchor(href='#cr')
+      .dashboard-label-indicador
+        h3 Usuarios
+    div
+      .row
+        .col-md-4
+          label Username
+          .input-icon
+            input.form-control(type='text', placeholder='Buscar ...', ng-model='buscar', uib-typeahead='listadoUsuario as listadoUsuario.username for listadoUsuario in listadoUsuarios | filter:{username:$viewValue}', typeahead-show-hint='true', typeahead-min-length='0')
+            .box-icon(ng-click='busqueda()')
+              i.fa.fa-search.search-icon
+        .col-md-8
+          br
+          input.btn-plomo.btn.btn-default.btn-group-sm(type='button', value='.....', ng-click='showModalListadoUsuarios()')
+      .row(ng-show="validacion.content")
+        .alert.alert-danger#alert-msg
+          | {{validacion.content}} 
+        //- br
+        //- | {{mensajeExito}} 2 
+        //- br
+        //- | {{mensajeError}} 3
+      .row
+        .col-md-2
+          input(type='hidden', name='id', readonly='readonly', 
+                placeholder='ID', ng-model='riskUser.userId')
+          label Username
+          br
+          input.form-control(type='text', 
+                             name='username', 
+                             ng-required='true', 
+                             placeholder='Nombre de usuario', 
+                             ng-model='riskUser.username'
+                             ng-disabled="!editActive || !campoEditable")
+        .col-md-2
+          label Nombre
+          br
+          input.form-control(type='text', 
+                             name='userName', 
+                             ng-required='true', 
+                             placeholder='Nombre', 
+                             ng-model='riskUser.userName'
+                             ng-disabled="!editActive")
+        .col-md-2
+          label Apellido
+          br
+          input.form-control(type='text',
+                             name='userLastname', 
+                             ng-required='true', 
+                             placeholder='Apellido', 
+                             ng-model='riskUser.userLastname'
+                             ng-disabled="!editActive")
+        .col-md-2
+          label Teléfono
+          br
+          input.form-control(type='text', 
+                             name='userPhone', 
+                             ng-required='true', 
+                             placeholder='Teléfono', 
+                             ng-model='riskUser.userPhone'
+                             ng-disabled="!editActive")
+        .col-md-2
+          label Email
+          br
+          input.form-control(type='email', 
+                             name='email', 
+                             ng-required='true', 
+                             placeholder='Email', 
+                             ng-model='riskUser.email'
+                             ng-disabled="!editActive || !campoEditable")
+      .row.rol-inputs
+        .col-md-4
+          label Rol
+        .col-md-3.hidden-xs.hidden-sm
+          label Perfil por Defecto
+        .col-md-3.hidden-xs.hidden-sm
+          label Tipo de Usuario
+      .row
+        .col-md-2
+          select.form-control(ng-model='riskUser.riskRole', 
+                              ng-change='selectedRol()', 
+                              ng-disabled="!editActive"
+                              ng-options='listadoRoles as listadoRoles.roleDescription for listadoRoles in listadoRol track by listadoRoles.roleId')
+            option(value='') --Eliga el rol--
+        .col-md-2
+          label Activo
+          md-checkbox(ng-model='userStateTemp' 
+                      class="grey"
+                      ng-checked="false"
+                      ng-disabled="!editActive"
+                      md-no-ink
+                      aria-label="Checkbox 2" )
+        .visible-xs.visible-sm.col-xs-12.col-sm-12
+          label Perfil por Defecto
+        .col-md-3
+          select.form-control(ng-model='riskUser.usroProfileId', 
+                              ng-change='selectedPerfil()', 
+                              ng-disabled="!editActive",
+                              ng-options='listadoPerfil.profileId as listadoPerfil.profileId.profileId for listadoPerfil in listadoPerfiles')
+            option(value='') --Eliga el perfil--
+        .col-md-3
+          select.form-control(ng-model='riskUser.userType', 
+                              ng-change='selectedPerfil()', 
+                              ng-disabled="!editActive",
+                              ng-options='tipoUsuario.value as tipoUsuario.type for tipoUsuario in listadoTipoUsuarios')
+            option(value='') --Eliga el tipo de usuario--
+      .row
+        .col-md-12
+          .button-actions
+            button.btn-rosado.btn.btn-default.btn-group-sm(type='submit', 
+                                                           ng-click='noBusqueda = true ;habilitarCrear()'
+                                                           ng-disabled="!botonesDeAccion.crear") Crear
+            button.btn-rosado.btn.btn-default.btn-group-sm(type='submit', 
+                                                           ng-click='noBusqueda = true ;crearUsuario()'
+                                                           ng-show="!botonesDeAccion.editar"
+                                                           ng-disabled="!botonesDeAccion.guardar") Guardar
+            button.btn-rosado.btn.btn-default.btn-group-sm(type='button', 
+                                                           ng-click='noBusqueda = true ;modificarUsuario()'
+                                                           ng-show="botonesDeAccion.editar" 
+                                                           ng-disabled="!botonesDeAccion.editar") Guardar
+            button.btn-rosado.btn.btn-default.btn-group-sm(type='button', 
+                                                           ng-click='noBusqueda = true ;editActive = false; resetearFormulario()'
+                                                           ng-disabled="!botonesDeAccion.cancelar") Cancelar
+            button.btn-rosado.btn.btn-default.btn-group-sm(type='button', 
+                                                           ng-click='showModalPassword()') Cambio de Password
+            //- button.btn-rosado.btn.btn-default.btn-group-sm(type='button', 
+            //-                                                ng-click="showPerfiles()"
+            //-                                                ng-disabled="noBusqueda") Perfiles de Usuario
+      .row.row.system-title
+        .col-md-12
+          h3 Matriz de Operaciones de Sistemas
+      .row.text-center
+        .col-md-4.col-sm-4.col-xs-4
+          | OPCION
+        .col-md-4.col-sm-4.col-xs-4
+          | TIPO
+        .col-md-4.col-sm-4.col-xs-4
+          | ACTIVO
+      .row.row-system-options(ng-repeat='opcionPerfil in opcionesPerfiles track by $index' )
+        .col-md-4.col-sm-4.col-xs-4
+          .option-box
+            | {{opcionPerfil.contenedor}}
+        .col-md-4.col-sm-4.col-xs-4
+          .option-box
+            | {{opcionPerfil.tipoFuncion}}
+        .col-md-4.col-sm-4.col-xs-4
+          .option-box
+            span(ng-if="opcionPerfil.habilitado") SI
+            span(ng-if="!opcionPerfil.habilitado") NO
+
+          //- table.table.table-striped.table-hover
+          //-   th Opción
+          //-   th Tipo
+          //-   th Activo
+          //-   tr(ng-repeat='listadoOpciones in listadoOpcion')
+          //-     td {{listadoOpciones.idFuncion}}
+          //-     td {{listadoOpciones.tipoFuncion}}
+          //-     td

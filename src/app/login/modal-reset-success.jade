@@ -1,0 +1,14 @@
+.modal(tabindex="-1", role="dialog")
+  .modal-dialog
+    .modal-content.small-modal
+      .modal-header
+        a.close(type="button", abm-component , ng-click="$hide()") ×
+        h4.modal-title.small-header.text-center RECUPERACIÓN DE CONTRASEÑA ENVIADA
+      .modal-body.text-center
+        | La ayuda esta en camino. Revise su correo y siga las instrucciones
+      .modal-footer.recovery-footer
+        .text-right
+          button.btn.btn-primary.btn-raised.active.recovery-button(ng-click='$hide()') OK
+        br
+        .row.col-md-12.text-center
+            span.title-footer Made by Ceptinel 2017 - General Calderon 121, Providencia, Santiago, Chile

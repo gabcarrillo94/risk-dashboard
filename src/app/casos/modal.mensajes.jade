@@ -1,0 +1,26 @@
+.modal.text-left(tabindex="-1" role="dialog")
+  .modal-dialog
+    .modal-content
+      .modal-header
+        a.close(type="button", abm-component , ng-click="$hide()") ×
+        h4.modal-title Ultimos mensajes
+      .modal-body(style="padding: 0;")
+        .panel.panel-info.panel-chart          
+          .panel-body
+            ul.discussion
+              li(ng-repeat="item in casos.discussions")
+                .avatar
+                  //img(src="assets/images/avatar.jpg")
+                  ng-letter-avatar(data="{{item.user}}", shape="round")
+                .messages
+                  h4 #caso dos
+                  p yeah, they do early flights cause they connect with big airports.  they wanna get u to your connection
+                  time  {{item.fecha | moment:'DD/MM/YYYY'}}
+              
+            abm-form-group.form-textarea
+              label(data-abm-label='', type='floating') Comentar
+              textarea(abm-form-control='', ng-model='textarea')
+              span.input-group-btn
+                button.btn.btn-fab.btn-primary.btn-fab-mini(type='button')
+                  i.material-icons send
+            

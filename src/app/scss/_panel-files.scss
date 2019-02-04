@@ -1,0 +1,41 @@
+.panel-files {
+  .panel-heading {
+    .panel-title {
+      .badge {
+        float: right;
+      }
+    }
+  }
+  btn-group {
+     box-shadow: none;
+    .btn {
+      font-size: 12px;
+      text-transform: none;
+      border: none;
+      border-radius: 0;
+      box-shadow: none!important;
+    }
+  }
+  .list-archivos {
+    margin-bottom: 10px;
+    li {
+      color: #424242;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding-right: 30px;
+      position: relative;
+      //margin-bottom: 3px;
+      font-size: 11px;
+      line-height: 15px;
+      a {
+        position: absolute;
+        right: 0;
+        font-size: 15px;
+        i {
+          
+        }
+      }   
+    }
+  }
+}

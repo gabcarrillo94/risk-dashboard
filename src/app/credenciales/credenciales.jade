@@ -1,0 +1,75 @@
+.bs-component
+  ul.nav.nav-tabs
+    li(ng-class='{activeTab}')
+      a.btn-raised(href='javascript:;', data-toggle='tab', abm-component='abm-component')
+        span.title ADMINISTRADOR DE CREDENCIALES
+  .row
+    .col-md-4(ng-show="editorPowerBi")
+      .tab-content.box-title.separate
+        .row
+          .col-md-12
+            label.text-title.underline Editar Parametros
+          .col-md-12
+            form(ng-submit="guardarCredencialesPBI()")
+              .row
+                .col-md-12
+                  .col-md-12
+                    .md-form
+                      label 
+                        | Id de la Aplicación
+                      input.form-control(type='text'
+                                          ng-model='pbiInfo.clientId'
+                                          ng-required='true')
+                      md-tooltip(md-direction="right") AplicationID
+                  .col-md-12
+                    .md-form
+                      label Clave de la Aplicación
+                      input.form-control(type='text'
+                                          ng-model='pbiInfo.clientSecret'
+                                          ng-required='true')
+                      md-tooltip(md-direction="right") PowerBiKey_CEP
+                  .col-md-12
+                    .md-form
+                      label Nombre de Usuario
+                      input.form-control(type='text'
+                                          ng-model='pbiInfo.username'
+                                          ng-required='true')
+                  .col-md-12
+                    .md-form
+                      label Clave de Usuario
+                      input.form-control(type='password'
+                                          ng-model='pbiInfo.password'
+                                          ng-required='true')
+                    hr
+                  .col-md-12(style="text-align:center;")
+                    button.btn-rosado.btn.btn-default.btn-group-sm(type='submit' ng-show="!loaderPBI") Guardar
+                    button.btn-rosado.btn.btn-default.btn-group-sm(type='button' ng-show="!loaderPBI" ng-click="cancelarEdicion()") Cancelar
+                    md-progress-linear(class="md-accent md-hue-2" md-mode="indeterminate" ng-show="loaderPBI")
+
+    .col-md-4(ng-show="!editorPowerBi")
+      .tab-content.box-title.separate        
+        .row
+          .col-md-12
+            label.text-title.underline Estatus Conexión
+          .col-md-12
+            img(src='/assets/images/logo_powerbi.png' style="width:70%;")
+          .section(ng-show="loaderPBI")
+            .col-md-12(style="text-align:center;")
+              .sk-wandering-cubes
+                .sk-cube.sk-cube1
+                .sk-cube.sk-cube2
+          .section(ng-show="!loaderPBI")
+            .col-md-12(style="text-align:center;")  
+              img(src='/assets/images/icons/connect_success.svg' style="width:25%; margin:7%;" ng-show="pbiInfo.active")
+              img(src='/assets/images/icons/connect_failed.svg' style="width:25%; margin:7%;" ng-show="!pbiInfo.active")
+            .col-md-12
+              br
+              span(style="color:grey;") La credencial de Power Bi de Microsoft se encuentra 
+              span(style="color:green;" ng-show="pbiInfo.active") habilitada 
+              span(style="color:red;" ng-show="!pbiInfo.active") deshabilitada 
+              span(style="color:grey;") para el workspace empresa/area/ejecutivo
+              hr     
+            .col-md-12(style="text-align:center;")
+              button.btn-rosado.btn.btn-default.btn-group-sm(type='button' ng-click="editorPowerBi = !editorPowerBi") Editar Parametros
+    
+          
